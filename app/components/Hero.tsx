@@ -37,14 +37,14 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center pt-24 md:pt-50 lg:pt-50 xl:pt-24 pb-8 sm:pb-12 overflow-hidden">
+    <section className="relative min-h-max md:min-h-screen  items-center pt-24 md:pt-50 lg:pt-50 xl:pt-24 pb-8 sm:pb-12 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20 flex flex-col xl:flex-row gap-8 sm:gap-12 lg:gap-16 items-center w-full relative z-10">
         {/* Left Content */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex-1 relative text-center xl:text-left"
+          className="flex-1 relative text-center xl:text-left pt-12"
         >
           <motion.h1
             variants={itemVariants}
@@ -55,14 +55,14 @@ const Hero: React.FC = () => {
 
           <motion.p
             variants={itemVariants}
-            className="text-base sm:text-lg md:text-xl text-[#8D9190] font-normal leading-relaxed mb-8 sm:mb-10 max-w-xl mx-auto xl:mx-0"
+            className="hidden lg:block text-base sm:text-lg md:text-xl text-[#8D9190] font-normal leading-relaxed mb-8 sm:mb-10 max-w-xl mx-auto xl:mx-0"
           >
             Scale elite selling behavior with rapid, AI-augmented value engineering – from first draft hypotheses to executive-ready business cases.
           </motion.p>
 
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap gap-3 sm:gap-5 justify-center xl:justify-start"
+            className="hidden lg:flex flex-wrap gap-3 sm:gap-5 justify-center xl:justify-start"
           >
             <Link href="/book-a-demo-with-nick" className="bg-[#80E0CC] text-black px-6 py-3 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)] cursor-pointer">
               Book A Demo <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
@@ -79,24 +79,42 @@ const Hero: React.FC = () => {
           className="flex-1 relative flex items-center justify-center select-none w-full xl:w-auto"
         >
           <div className="relative w-full max-w-[600px] mx-auto aspect-[4/3] lg:aspect-square flex items-center justify-center">
-            <img 
-              src="/hero-image.svg" 
-              alt="Hero illustration" 
+            <img
+              src="/hero-image.svg"
               className="w-full h-full object-contain"
+              alt="Hero illustration"
             />
           </div>
         </motion.div>
       </div>
-
-      {/* Section Scroll Indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
+      <div className="px-4 sm:px-6 md:px-12 lg:px-20 mt-10">
+        <motion.p
+          variants={itemVariants}
+          className="block lg:hidden text-center text-base sm:text-lg md:text-xl text-[#8D9190] font-normal leading-relaxed mb-8 sm:mb-10 max-w-xl mx-auto xl:mx-0"
         >
-          <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Explore The Shift</span>
-          <div className="w-px h-6 sm:h-8 bg-white/50"></div>
+          Scale elite selling behavior with rapid, AI-augmented value engineering – from first draft hypotheses to executive-ready business cases.
+        </motion.p>
+
+        <motion.div
+          variants={itemVariants}
+          className="block lg:hidden flex-wrap gap-3 sm:gap-5 justify-center w-max mx-auto"
+        >
+          <Link href="/book-a-demo-with-nick" className="bg-[#80E0CC] text-black py-3 px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)] cursor-pointer">
+            Book A Demo <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
+          </Link>
         </motion.div>
+      </div>
+
+      
+      {/* Section Scroll Indicator */}
+      <motion.div
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="hidden lg:flex absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
+      >
+        <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Explore The Shift</span>
+        <div className="w-px h-6 sm:h-8 bg-white/50"></div>
+      </motion.div>
     </section>
   );
 };
