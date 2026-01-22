@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
         </motion.div>
 
         <div className="border-t border-white/5 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-gray-600">
-          <p className="text-center md:text-left">© 2024 Gen SP Technologies Inc. Crafted for elite performers.</p>
+          <p className="text-center md:text-left">© 2026 Gen SP Technologies Inc. Crafted for elite performers.</p>
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms & Conditions</a>
