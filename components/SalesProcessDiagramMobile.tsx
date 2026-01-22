@@ -16,8 +16,8 @@ const SalesProcessDiagramMobile: React.FC<SalesProcessDiagramMobileProps> = ({ w
 
     // Layout configuration for vertical layout
     const nodeWidth = 300;
-    const nodeHeight = 130;
-    const gap = 60;
+    const nodeHeight = 140;
+    const gap = 90;
     const viewBoxWidth = 380;
     const startX = (viewBoxWidth - nodeWidth) / 2; // Centered horizontally (40px)
     const startY = 180; // Moved down significantly to create more space
