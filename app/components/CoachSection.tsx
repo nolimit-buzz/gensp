@@ -62,7 +62,7 @@ const CoachSection: React.FC = () => {
                   <h4 className="text-white font-bold text-[16px] mb-2 tracking-wide">
                     {pillars[activeTab].label}
                   </h4>
-                  <p className="text-white/80 text-[14px] leading-relaxed">
+                  <p className="text-white/80 text-[14px] leading-[120%]">
                     {pillars[activeTab].desc}
                   </p>
                 </div>
@@ -106,7 +106,7 @@ const CoachSection: React.FC = () => {
                 <h4 className={`text-[13px] font-bold mb-3 tracking-wide ${activeTab === idx ? 'text-white' : 'text-gray-500'}`}>
                   {p.label}
                 </h4>
-                <p className={`text-[14px] leading-relaxed ${activeTab === idx ? 'text-white/80' : 'text-gray-500'}`}>
+                <p className={`text-[14px] leading-[120%] ${activeTab === idx ? 'text-white/80' : 'text-gray-500'}`}>
                   {p.desc}
                 </p>
               </button>
