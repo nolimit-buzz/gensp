@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
             Ready to make your team <br /> <span className="text-white/40">strategic sellers?</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-500 mb-6 sm:mb-8 lg:mb-10 font-normal max-w-[559px] mx-auto">See how Gen SP scales business case-driven selling and drives greater deal values.</p>
-          <Link href="/book-a-demo-with-nick" className="bg-[#b0f2d1] text-black px-8 sm:px-10 lg:px-12 py-4 sm:py-4 lg:py-5 rounded-full text-sm sm:text-base lg:text-lg font-bold hover:bg-[#9de4c1] transition-all transform hover:scale-105 shadow-[0_10px_40px_rgba(176,242,209,0.3)] cursor-pointer inline-block">
+          <Link href="/book-a-demo-with-nick" className="bg-[#b0f2d1] text-black px-4 lg:px-6 py-4 sm:py-4 lg:py-5 rounded-full text-sm sm:text-base lg:text-lg font-bold hover:bg-[#9de4c1] transition-all transform hover:scale-105 shadow-[0_10px_40px_rgba(176,242,209,0.3)] cursor-pointer inline-block">
             Book A Demo
           </Link>
         </motion.div>
