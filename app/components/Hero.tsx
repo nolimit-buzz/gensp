@@ -79,10 +79,10 @@ const Hero: React.FC = () => {
             variants={itemVariants}
             className="flex flex-wrap gap-5"
           >
-            <button className="bg-[#80E0CC] text-black px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)]">
+            <button className="bg-[#80E0CC] text-black px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)] cursor-pointer">
               Get Started <ArrowRight size={18} />
             </button>
-            <button className="px-8 py-4 rounded-full font-bold flex items-center gap-2 border border-white/10 hover:bg-white/5 transition-all">
+            <button className="px-8 py-4 rounded-full font-bold flex items-center gap-2 border border-white/10 hover:bg-white/5 transition-all cursor-pointer">
               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
                 <Play size={14} fill="white" />
               </div>

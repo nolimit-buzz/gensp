@@ -79,7 +79,7 @@ const BusinessCaseDiagram: React.FC<BusinessCaseDiagramProps> = ({ width = 800, 
         visible: {
             scale: 1,
             opacity: 1,
-            transition: { delay: T_CENTER, type: 'spring', stiffness: 200, damping: 20 }
+            transition: { delay: T_CENTER, type: 'spring' as const, stiffness: 200, damping: 20 }
         },
         pulse: {
             scale: 1,
@@ -89,7 +89,7 @@ const BusinessCaseDiagram: React.FC<BusinessCaseDiagramProps> = ({ width = 800, 
             scale: 1.1,
             filter: "drop-shadow(0 0 15px rgba(23, 30, 28, 0.8))",
             cursor: "pointer",
-            transition: { type: "spring", stiffness: 300 }
+            transition: { type: "spring" as const, stiffness: 300 }
         }
     };
 
@@ -103,7 +103,7 @@ const BusinessCaseDiagram: React.FC<BusinessCaseDiagramProps> = ({ width = 800, 
             return {
                 pathLength: 1,
                 opacity: 1,
-                transition: { delay, duration: 0.6, ease: "easeOut" }
+                transition: { delay, duration: 0.6, ease: "easeOut" as const }
             };
         },
         pulse: {
@@ -112,7 +112,7 @@ const BusinessCaseDiagram: React.FC<BusinessCaseDiagramProps> = ({ width = 800, 
             transition: {
                 duration: 3,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: "easeInOut" as const
             }
         }
     };
@@ -127,7 +127,7 @@ const BusinessCaseDiagram: React.FC<BusinessCaseDiagramProps> = ({ width = 800, 
             return {
                 scale: 1,
                 opacity: 1,
-                transition: { delay, type: 'spring', stiffness: 200, damping: 20 }
+                transition: { delay, type: 'spring' as const, stiffness: 200, damping: 20 }
             };
         },
         pulse: {
@@ -138,7 +138,7 @@ const BusinessCaseDiagram: React.FC<BusinessCaseDiagramProps> = ({ width = 800, 
             scale: 1.1,
             filter: "drop-shadow(0 0 10px rgba(111, 216, 200, 0.3))",
             cursor: "pointer",
-            transition: { type: "spring", stiffness: 300 }
+            transition: { type: "spring" as const, stiffness: 300 }
         }
     };
 
