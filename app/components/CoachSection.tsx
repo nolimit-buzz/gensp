@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, Bot, FileText } from 'lucide-react';
+import { TrendingUp, Bot, FileText, ChevronRight, ChevronLeft } from 'lucide-react';
 
 const CoachSection: React.FC = () => {
   const pillars = [
@@ -13,6 +13,14 @@ const CoachSection: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState(0);
 
+  const nextTab = () => {
+    setActiveTab((prev) => (prev + 1) % pillars.length);
+  };
+
+  const prevTab = () => {
+    setActiveTab((prev) => (prev - 1 + pillars.length) % pillars.length);
+  };
+
   return (
     <section id="meet-coach" className="py-24 relative bg-black">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
@@ -22,7 +30,7 @@ const CoachSection: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl lg:text-[36px] font-bold mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[36px] font-bold mb-8">
             Coach: Your thought partner in <span className="text-white/40">building, <br /> refining, and executing</span> your value strategy
           </h2>
           <p className="text-[16px] font-normal text-gray-400 max-w-3xl mx-auto">
@@ -31,13 +39,57 @@ const CoachSection: React.FC = () => {
         </motion.div>
 
         <div className="flex flex-col">
-          {/* Tabs/Pillars */}
+          {/* Mobile Tabs/Pillars - Card Design */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full relative z-10 -mb-8"
+            className="block lg:hidden mb-0"
+          >
+            <div className="bg-[#414946] rounded-none px-6 py-6 border border-white/10">
+              {/* Coach Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full border border-[#71D5CB]/30 flex items-center justify-center bg-black/20 flex-shrink-0">
+                  <Bot size={20} className="text-[#71D5CB]" />
+                </div>
+                <span className="text-white font-bold text-[14px]">Coach</span>
+              </div>
+              
+              {/* Tab Content */}
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <h4 className="text-white font-bold text-[16px] mb-2 tracking-wide">
+                    {pillars[activeTab].label}
+                  </h4>
+                  <p className="text-white/80 text-[12px] leading-relaxed">
+                    {pillars[activeTab].desc}
+                  </p>
+                </div>
+                
+                {/* Navigation */}
+                <div className="flex flex-col items-center gap-3 ml-4">
+                  <button
+                    onClick={nextTab}
+                    className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/5 transition-all cursor-pointer"
+                  >
+                    <ChevronRight size={20} className="text-white" />
+                  </button>
+                  <span className="text-white text-[12px] font-medium">
+                    {activeTab + 1}/{pillars.length}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Desktop Tabs/Pillars */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="hidden lg:grid grid-cols-4 w-full relative z-10 lg:-mb-8"
           >
             {pillars.map((p, idx) => (
               <button
@@ -67,7 +119,7 @@ const CoachSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col bg-[#414946] rounded-3xl overflow-hidden min-h-[600px] shadow-2xl border-[0.5px] border-t-0 border-white/10 relative z-20"
+            className="flex flex-col bg-[#414946] rounded-b-3xl lg:rounded-3xl overflow-hidden min-h-[600px] shadow-2xl border-[0.5px] border-t-0 border-white/10 relative z-20"
           >
             {/* Coach Header */}
             <div className="p-8 pb-6 flex items-center gap-4">
