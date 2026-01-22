@@ -41,23 +41,23 @@ const Testimonial: React.FC = () => {
     <section className="py-32 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#b0f2d1] opacity-[0.02] rounded-full blur-[150px]"></div>
 
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
-        <div>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 grid lg:grid-cols-2 gap-20 items-center">
+        <div className="text-center lg:text-left">
           <h2 className="text-4xl lg:text-[36px] font-bold mb-8">
             Customizable, <span className="text-white/40">not <br />off-the-shelf.</span>
           </h2>
-          <div className="text-[16px] font-normal! text-gray-400 space-y-6 max-w-md">
+          <div className="text-[16px] font-normal! text-gray-400 space-y-6 max-w-md mx-auto lg:mx-0">
             <p>Gen SP is a customizable platform that anchors on the principles of strong value selling. We'll partner together to configure a set of AI prompts based on your organization's thought leadership, full solution set, target customers, etc. to create value insights curated for your sellers.</p>
             <p>This platform can be leveraged across all value planning motions – from deal acceleration to account expansion. Ultimately, enabling all of your sellers to drive <span className="text-white font-normal">more transformational deals.</span></p>
           </div>
         </div>
 
-        <div className="relative h-full flex flex-col justify-center">
+        <div className="relative h-full flex flex-col justify-center mx-auto lg:mx-0">
           <div className="absolute -top-10 -right-10 text-white/5 pointer-events-none">
             <Quote size={200} />
           </div>
 
-          <div className="bg-[#0a0c10] border border-white/10 p-12 rounded-[40px] relative z-10 backdrop-blur-xl min-h-[480px] flex flex-col justify-between">
+          <div className="bg-[#0a0c10] border border-white/10 p-8 lg:p-12 rounded-[40px] relative z-10 backdrop-blur-xl min-h-[480px] max-w-[500px] flex flex-col justify-between">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -67,7 +67,7 @@ const Testimonial: React.FC = () => {
                 transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="flex flex-col h-full"
               >
-                <div className="flex items-center gap-4 mb-10">
+                <div className="flex items-center gap-4 mb-10 justify-center lg:justify-start">
                   <img
                     src={testimonials[activeIndex].image}
                     className="w-16 h-16 rounded-full border-2 border-[#b0f2d1]/50 object-cover"
