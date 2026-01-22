@@ -24,35 +24,50 @@ const Evolution: React.FC = () => {
   };
 
   return (
-    <section id="the-shift" className="py-24 bg-[#020014] relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="the-shift" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-[#020014] relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-24"
+          className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
-            className="inline-flex items-center gap-2 text-[#b0f2d1] text-xs font-bold uppercase tracking-[0.2em] mb-6 px-4 py-2 bg-[#b0f2d1]/5 rounded-full"
+            className="inline-flex items-center gap-2 text-[#b0f2d1] text-[9px] xs:text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-4 sm:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-[#b0f2d1]/5 rounded-full"
           >
-            <Zap size={14} fill="currentColor" /> The Evolution
+            <Zap size={12} className="sm:w-[14px] sm:h-[14px]" fill="currentColor" /> The Evolution
           </motion.div>
-          <h2 className="text-[36px] leading-[150%] font-bold tracking-normal text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[36px] leading-[1.1] sm:leading-[1.2] font-bold tracking-normal text-center mb-6 sm:mb-8">
             New Buyer Expectations = <span className="text-gray-500">New Selling Benchmarks</span>
           </h2>
-          <div className="max-w-[748px] mx-auto text-[#8D9190] text-[16px] leading-[150%] tracking-[0%] text-center font-normal font-sans space-y-4">
+          <div className="max-w-[748px] mx-auto text-[#8D9190] text-sm sm:text-base md:text-lg leading-relaxed tracking-[0%] text-center font-normal font-sans space-y-3 sm:space-y-4 px-4 sm:px-0">
             <p>
               The traditional sales process leads with us – our product, our features, our checklist of discovery questions.
             </p>
-            <p>But buyers don’t care. <span className="text-white font-bold">They’re focused on how their business can improve.</span></p>
+            <p>But buyers don't care. <span className="text-white font-bold">They're focused on how their business can improve.</span></p>
             <p>
               Top-performers anchor the entire sales motion around a business case from day one – shifting conversations from
-              “here’s what we do” to “here’s the value we can create together”.
+              "here's what we do" to "here's the value we can create together".
             </p>
           </div>
+        </motion.div>
+
+        {/* Quote Text */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
+        >
+          <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-[1.1] sm:leading-[1.2] font-bold tracking-normal">
+            That's how deals move <span className="text-gray-400">faster</span>
+            <br />
+            and close <span className="text-gray-400">bigger.</span>
+          </h3>
         </motion.div>
 
         {/* Diagram Flow */}
@@ -84,11 +99,11 @@ const Evolution: React.FC = () => {
 
           {/* Mobile Version - Side by Side */}
           <div className="block lg:hidden">
-            <div className="flex flex-row gap-2 w-full">
-              <div className="flex-1 min-w-0">
+            <div className="flex flex-row gap-2 w-full justify-center">
+              <div className="flex-1 min-w-0 max-w-[280px]">
                 <SalesProcessDiagramMobile width="100%" />
               </div>
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 max-w-[280px]">
                 <BusinessCaseProcessDiagramMobile width="100%" />
               </div>
             </div>

@@ -24,8 +24,8 @@ const ValueProposition: React.FC = () => {
   const accentColor = "#80E0CC";
 
   return (
-    <section id="outcomes" className="py-24 bg-[#020014] px-6">
-      <div className="max-w-[1240px] mx-auto bg-[#050707F2]/95 rounded-[48px] p-8 lg:p-20 border border-white/5">
+    <section id="outcomes" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-[#020014]">
+      <div className="max-w-[1240px] mx-auto bg-[#050707F2]/95 rounded-none lg:rounded-[48px] p-6 md:p-12 lg:p-20 border border-white/5">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
 
           {/* Left Column: The Main Card */}
@@ -39,7 +39,7 @@ const ValueProposition: React.FC = () => {
             {/* Ambient Glow */}
             <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#80E0CC]/5 rounded-full blur-[80px] group-hover:bg-[#80E0CC]/10 transition-colors" />
 
-            <div className="relative z-10">
+            <div className="relative z-10 text-center lg:text-left">
               <span className="text-[#80E0CC] text-[13px] font-bold uppercase tracking-[0.1em] block mb-2">
                 HIGHER WIN RATES. FASTER VELOCITY. BIGGER DEALS.
               </span>
@@ -80,7 +80,7 @@ const ValueProposition: React.FC = () => {
                   }`}>
                   {feature.icon}
                 </div>
-                <p className="text-[16px] leading-[1.5] text-[#80E0CC] max-w-[320px] font-normal">
+                <p className="text-[16px] leading-[1.5] text-[#80E0CC] font-normal flex-1">
                   {feature.title}
                 </p>
               </motion.div>
