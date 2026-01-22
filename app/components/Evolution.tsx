@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Zap } from 'lucide-react';
 import SalesProcessDiagram from '@/components/SalesProcessDiagram';
+import SalesProcessDiagramMobile from '@/components/SalesProcessDiagramMobile';
 import BusinessCaseProcessDiagram from '@/components/BusinessCaseProcessDiagram';
 
 const Evolution: React.FC = () => {
@@ -63,7 +64,14 @@ const Evolution: React.FC = () => {
             viewport={{ once: true }}
             className="relative flex justify-start w-full"
           >
-            <SalesProcessDiagram />
+            {/* Desktop Version */}
+            <div className="hidden lg:block w-full">
+              <SalesProcessDiagram />
+            </div>
+            {/* Mobile Version */}
+            <div className="block lg:hidden w-full">
+              <SalesProcessDiagramMobile />
+            </div>
           </motion.div>
 
           {/* Business-Driven Process */}

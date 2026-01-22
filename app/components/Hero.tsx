@@ -38,31 +38,26 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#b0f2d1] opacity-[0.03] rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-[600px] bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_#1d4ed8_0%,_transparent_100%)] opacity-30 pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[#b0f2d1] opacity-[0.02] rounded-full blur-[150px] pointer-events-none" />
-
-      <div className="max-w-[1440px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center w-full relative z-10">
+    <section className="relative min-h-screen flex items-center pt-20 sm:pt-24 md:pt-50 lg:pt-50 xl:pt-24 pb-8 sm:pb-12 overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20 flex flex-col xl:flex-row gap-8 sm:gap-12 lg:gap-16 items-center w-full relative z-10">
         {/* Left Content */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="relative"
+          className="flex-1 relative text-center xl:text-left"
         >
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[#80E0CC] text-xs font-bold uppercase tracking-widest mb-8"
+            className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/5 border border-white/10 text-[#80E0CC] text-[9px] xs:text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-6 sm:mb-8"
           >
-            <span className="w-2 h-2 rounded-full bg-[#80E0CC] animate-pulse"></span>
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#80E0CC] animate-pulse"></span>
             Intelligence Augmented Value Engineering
           </motion.div>
 
           <motion.h1
             variants={itemVariants}
-            className="text-5xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight mb-8"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-extrabold leading-[1.1] tracking-tight mb-6 sm:mb-8"
           >
             Value Selling Starts <br />
             with a <span className="text-[#80E0CC] italic">Hypothesis.</span>
@@ -70,37 +65,38 @@ const Hero: React.FC = () => {
 
           <motion.p
             variants={itemVariants}
-            className="text-xl text-[#8D9190] font-normal leading-relaxed mb-10 max-w-xl"
+            className="text-base sm:text-lg md:text-xl text-[#8D9190] font-normal leading-relaxed mb-8 sm:mb-10 max-w-xl mx-auto xl:mx-0"
           >
             Scale elite selling behavior with rapid, AI-augmented value engineering – from first draft hypotheses to executive-ready business cases.
           </motion.p>
 
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap gap-5"
+            className="flex flex-wrap gap-3 sm:gap-5 justify-center xl:justify-start"
           >
-            <button className="bg-[#80E0CC] text-black px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)] cursor-pointer">
-              Get Started <ArrowRight size={18} />
+            <button className="bg-[#80E0CC] text-black px-6 py-3 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)] cursor-pointer">
+              Get Started <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
             </button>
-            <button className="px-8 py-4 rounded-full font-bold flex items-center gap-2 border border-white/10 hover:bg-white/5 transition-all cursor-pointer">
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                <Play size={14} fill="white" />
+            <button className="px-6 py-3 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 border border-white/10 hover:bg-white/5 transition-all cursor-pointer">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <Play size={12} className="sm:w-[14px] sm:h-[14px]" fill="white" />
               </div>
-              Watch Demo
+              <span className="hidden sm:inline">Watch Demo</span>
+              <span className="sm:hidden">Watch</span>
             </button>
           </motion.div>
 
           <motion.div
             variants={itemVariants}
-            className="mt-12 flex items-center gap-8 text-gray-500"
+            className="mt-8 sm:mt-12 flex flex-wrap items-center gap-4 sm:gap-8 text-gray-500 justify-center xl:justify-start"
           >
             <div className="flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-[#80E0CC]" />
-              <span className="text-sm font-medium">Enterprise Ready</span>
+              <CheckCircle2 size={14} className="sm:w-4 sm:h-4 text-[#80E0CC]" />
+              <span className="text-xs sm:text-sm font-medium">Enterprise Ready</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-[#80E0CC]" />
-              <span className="text-sm font-medium">No Training Required</span>
+              <CheckCircle2 size={14} className="sm:w-4 sm:h-4 text-[#80E0CC]" />
+              <span className="text-xs sm:text-sm font-medium">No Training Required</span>
             </div>
           </motion.div>
         </motion.div>
@@ -110,23 +106,23 @@ const Hero: React.FC = () => {
           variants={diagramVariants}
           initial="hidden"
           animate="visible"
-          className="relative flex items-center justify-center select-none"
+          className="flex-1 relative flex items-center justify-center select-none w-full xl:w-auto"
         >
-          <div className="relative w-full  aspect-[4/3] lg:aspect-square flex items-center justify-center">
+          <div className="relative w-full max-w-[600px] mx-auto aspect-[4/3] lg:aspect-square flex items-center justify-center">
             <BusinessCaseDiagram2 width="100%" height="100%" />
           </div>
         </motion.div>
       </div>
 
       {/* Section Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
-      >
-        <span className="text-[10px] uppercase font-bold tracking-widest">Explore The Shift</span>
-        <div className="w-px h-8 bg-white/50"></div>
-      </motion.div>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
+        >
+          <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Explore The Shift</span>
+          <div className="w-px h-6 sm:h-8 bg-white/50"></div>
+        </motion.div>
     </section>
   );
 };
