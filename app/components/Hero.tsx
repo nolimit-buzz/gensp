@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { ArrowRight, Play, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
 import BusinessCaseDiagram from '@/components/BusinessCaseDiagram';
 import BusinessCaseDiagram2 from '@/components/BusinessCaseDiagram2';
 
@@ -38,7 +39,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 sm:pt-24 md:pt-50 lg:pt-50 xl:pt-24 pb-8 sm:pb-12 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-24 md:pt-50 lg:pt-50 xl:pt-24 pb-8 sm:pb-12 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20 flex flex-col xl:flex-row gap-8 sm:gap-12 lg:gap-16 items-center w-full relative z-10">
         {/* Left Content */}
         <motion.div
@@ -58,9 +59,8 @@ const Hero: React.FC = () => {
           <motion.h1
             variants={itemVariants}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-extrabold leading-[1.1] tracking-tight mb-6 sm:mb-8"
-          >
-            Value Selling Starts <br />
-            with a <span className="text-[#80E0CC] italic">Hypothesis.</span>
+          >Value Selling
+            <span className="text-[#8D9190]"> Starts with a </span>Hypothesis.
           </motion.h1>
 
           <motion.p
@@ -74,15 +74,14 @@ const Hero: React.FC = () => {
             variants={itemVariants}
             className="flex flex-wrap gap-3 sm:gap-5 justify-center xl:justify-start"
           >
-            <button className="bg-[#80E0CC] text-black px-6 py-3 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)] cursor-pointer">
-              Get Started <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
-            </button>
+            <Link href="/book-a-demo-with-nick" className="bg-[#80E0CC] text-black px-6 py-3 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)] cursor-pointer">
+              Book A Demo <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
+            </Link>
             <button className="px-6 py-3 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 border border-white/10 hover:bg-white/5 transition-all cursor-pointer">
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center">
                 <Play size={12} className="sm:w-[14px] sm:h-[14px]" fill="white" />
               </div>
-              <span className="hidden sm:inline">Watch Demo</span>
-              <span className="sm:hidden">Watch</span>
+              <span>Watch Demo</span>
             </button>
           </motion.div>
 

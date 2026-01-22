@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,7 +38,7 @@ const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer group">
+        <Link href="/" className="flex items-center gap-2 cursor-pointer group">
           <div>
             <svg width="137" height="40" viewBox="0 0 203 60" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_2909_96)">
@@ -53,7 +54,7 @@ const Navbar: React.FC = () => {
               </defs>
             </svg>
           </div>
-        </div>
+        </Link>
 
         {/* Links */}
         <div className="hidden lg:flex items-center">
@@ -87,22 +88,24 @@ const Navbar: React.FC = () => {
           >
             <Search size={20} />
           </motion.button>
-          <motion.button 
-            className="hidden lg:block relative overflow-hidden bg-[#b0f2d1] text-black px-6 py-2.5 rounded-full text-sm font-bold shadow-[0_0_20px_rgba(176,242,209,0.3)] group cursor-pointer"
-            whileHover={{ 
-              scale: 1.1,
-              boxShadow: "0 0 30px rgba(176,242,209,0.5)"
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="relative z-10">Book A Demo</span>
-            <motion.div 
-              className="absolute inset-0 bg-white"
-              initial={{ opacity: 0 }}
-              whileHover={{ opacity: 0.2 }}
-              transition={{ duration: 0.3 }}
-            />
-          </motion.button>
+          <Link href="/book-a-demo-with-nick">
+            <motion.button 
+              className="hidden lg:block relative overflow-hidden bg-[#b0f2d1] text-black px-6 py-2.5 rounded-full text-sm font-bold shadow-[0_0_20px_rgba(176,242,209,0.3)] group cursor-pointer"
+              whileHover={{ 
+                scale: 1.1,
+                boxShadow: "0 0 30px rgba(176,242,209,0.5)"
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="relative z-10">Book A Demo</span>
+              <motion.div 
+                className="absolute inset-0 bg-white"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 0.2 }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.button>
+          </Link>
           <motion.button 
             className="lg:hidden text-gray-400 cursor-pointer"
             whileHover={{ 
@@ -186,23 +189,24 @@ const Navbar: React.FC = () => {
                 transition={{ duration: 0.3, delay: 0.15 }}
                 className="flex justify-center"
               >
-                <motion.button 
-                  className="relative overflow-hidden bg-[#b0f2d1] text-black px-6 py-2.5 rounded-full text-sm font-bold shadow-[0_0_20px_rgba(176,242,209,0.3)] group cursor-pointer"
-                  whileHover={{ 
-                    scale: 1.1,
-                    boxShadow: "0 0 30px rgba(176,242,209,0.5)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <span className="relative z-10">Book A Demo</span>
-                  <motion.div 
-                    className="absolute inset-0 bg-white"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 0.2 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </motion.button>
+                <Link href="/book-a-demo-with-nick" onClick={() => setIsMobileMenuOpen(false)}>
+                  <motion.button 
+                    className="relative overflow-hidden bg-[#b0f2d1] text-black px-6 py-2.5 rounded-full text-sm font-bold shadow-[0_0_20px_rgba(176,242,209,0.3)] group cursor-pointer"
+                    whileHover={{ 
+                      scale: 1.1,
+                      boxShadow: "0 0 30px rgba(176,242,209,0.5)"
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span className="relative z-10">Book A Demo</span>
+                    <motion.div 
+                      className="absolute inset-0 bg-white"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 0.2 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.button>
+                </Link>
               </motion.div>
             </motion.div>
           </motion.div>

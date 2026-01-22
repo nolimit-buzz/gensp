@@ -8,7 +8,7 @@ const testimonials = [
     role: "Sr. Director, Partner Growth",
     image: "/philip.png",
     quote: "We spent the past year experimenting with AI across multiple initiatives, and Gen SP was one of the only use cases we've seen that went beyond 'cool tech', driving improved execution and a documented impact on wins and efficiency across our team.",
-    company: "Salesforce"
+    company: "Opentext"
   },
   {
     name: "Natalie Bering",
@@ -78,7 +78,7 @@ const Testimonial: React.FC = () => {
                     <p className="text-[#b0f2d1] text-[12px] uppercase tracking-widest font-bold">
                       {testimonials[activeIndex].role}
                     </p>
-                    <p className="text-[#414946] text-[16px] uppercase tracking-widest font-bold">
+                    <p className="text-[#414946] text-[12px] tracking-widest font-bold">
                       @{testimonials[activeIndex].company}
                     </p>
                   </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Youtube } from 'lucide-react';
+import Link from 'next/link';
 
 const Footer: React.FC = () => {
   return (
@@ -17,9 +18,9 @@ const Footer: React.FC = () => {
             Ready to make your team <br /> <span className="text-white/40">strategic sellers?</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-500 mb-6 sm:mb-8 lg:mb-10 font-normal max-w-[559px] mx-auto">See how Gen SP scales business case-driven selling and drives greater deal values.</p>
-          <button className="bg-[#b0f2d1] text-black px-8 sm:px-10 lg:px-12 py-4 sm:py-4 lg:py-5 rounded-full text-sm sm:text-base lg:text-lg font-bold hover:bg-[#9de4c1] transition-all transform hover:scale-105 shadow-[0_10px_40px_rgba(176,242,209,0.3)] cursor-pointer">
+          <Link href="/book-a-demo-with-nick" className="bg-[#b0f2d1] text-black px-8 sm:px-10 lg:px-12 py-4 sm:py-4 lg:py-5 rounded-full text-sm sm:text-base lg:text-lg font-bold hover:bg-[#9de4c1] transition-all transform hover:scale-105 shadow-[0_10px_40px_rgba(176,242,209,0.3)] cursor-pointer inline-block">
             Book A Demo
-          </button>
+          </Link>
         </motion.div>
 
         <motion.div
@@ -29,7 +30,7 @@ const Footer: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="border-t border-white/5 pt-12 sm:pt-16 md:pt-20 pb-8 sm:pb-10 flex flex-col items-center gap-8 sm:gap-10 lg:gap-12"
         >
-          <div className="flex items-center gap-2 sm:gap-3">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 cursor-pointer">
             <svg className="w-32 sm:w-40 md:w-48 lg:w-[203px] h-auto" width="203" height="60" viewBox="0 0 203 60" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_2909_96)">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.90588 8.54145C9.16285 8.54145 11.7943 11.1945 11.7943 14.4299C11.7943 17.6868 9.16285 20.3183 5.90588 20.3183C2.64891 20.3183 0.0174561 17.6868 0.0174561 14.4299C0.0174561 11.1945 2.64891 8.54145 5.90588 8.54145ZM57.0899 7.05317C59.5272 7.05317 61.5116 9.03755 61.5116 11.4749C61.5116 13.9122 59.5272 15.875 57.0899 15.875C54.6526 15.875 52.6682 13.9122 52.6682 11.4749C52.6682 9.03755 54.6526 7.05317 57.0899 7.05317ZM62.6548 22.6047C65.0921 22.6047 67.0765 24.589 67.0765 27.0264C67.0765 29.4637 65.0921 31.4481 62.6548 31.4481C60.2174 31.4481 58.2331 29.4637 58.2331 27.0264C58.2331 24.589 60.2174 22.6047 62.6548 22.6047ZM56.0114 35.6972C58.4703 35.6972 60.4331 37.6816 60.4331 40.1189C60.4331 42.5563 58.4703 44.5407 56.0114 44.5407C53.5741 44.5407 51.6113 42.5563 51.6113 40.1189C51.6113 37.6816 53.5741 35.6972 56.0114 35.6972ZM35.9735 47.6035C38.4109 47.6035 40.3952 49.5879 40.3952 52.0252C40.3952 54.4625 38.4109 56.4469 35.9735 56.4469C33.5362 56.4469 31.5518 54.4625 31.5518 52.0252C31.5518 49.5879 33.5362 47.6035 35.9735 47.6035ZM22.8162 51.0546C25.2536 51.0546 27.2379 53.039 27.2379 55.4763C27.2379 57.9136 25.2536 59.898 22.8162 59.898C20.3789 59.898 18.3945 57.9136 18.3945 55.4763C18.3945 53.039 20.3789 51.0546 22.8162 51.0546ZM7.48044 35.8051C10.7158 35.8051 13.3689 38.4365 13.3689 41.6935C13.3689 44.9505 10.7158 47.5819 7.48044 47.5819C4.22347 47.5819 1.59202 44.9505 1.59202 41.6935C1.59202 38.4365 4.22347 35.8051 7.48044 35.8051ZM32.846 12.5318C40.158 12.5318 46.0895 18.4633 46.0895 25.7753C46.0895 33.0873 40.158 39.0189 32.846 39.0189C25.534 39.0189 19.6024 33.0873 19.6024 25.7753C19.6024 18.4633 25.534 12.5318 32.846 12.5318ZM20.9397 0C23.377 0 25.3614 1.98438 25.3614 4.42171C25.3614 6.85905 23.377 8.82185 20.9397 8.82185C18.5024 8.82185 16.518 6.85905 16.518 4.42171C16.518 1.98438 18.5024 0 20.9397 0Z" fill="#71D5CB" />
@@ -44,7 +45,7 @@ const Footer: React.FC = () => {
               </defs>
             </svg>
 
-          </div>
+          </Link>
 
           <p className="text-xs sm:text-sm md:text-base text-gray-500 text-center max-w-[559px] mx-auto leading-relaxed font-normal">
             The premium AI platform for elite sales teams to engineer value at scale. Transform every conversation into a strategic business case.
