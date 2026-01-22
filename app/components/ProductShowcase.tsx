@@ -155,15 +155,15 @@ const ProductShowcase: React.FC = () => {
                   onClick={() => handleMainTabChange(tab.id)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`flex flex-col justify-center gap-3 px-4 md:px-6 lg:px-10 h-[120px] lg:flex-shrink-0 lg:min-w-[200px] rounded-[20px] transition-all duration-300 text-left ${isActive
+                  className={`flex flex-col justify-center gap-3 px-3 sm:px-4 md:px-6 lg:px-10 h-[120px] lg:flex-shrink-0 lg:min-w-[200px] rounded-[20px] transition-all duration-300 text-left ${isActive
                     ? 'bg-[#3A4943] shadow-xl'
                     : 'bg-[#3A494366] border-[0.5px] border-[#80E0CC] hover:border-white/10'
                     }`}
                 >
                   <div className="text-white">
-                    <TrendingUp className="w-6 h-6" />
+                    <TrendingUp className="w-4 md:w-6 h-4 md:h-6" />
                   </div>
-                  <span className="text-[14px] lg:text-[18px] font-bold text-white tracking-tight">
+                  <span className="text-[12px] sm:text-[14px] lg:text-[18px] font-bold text-white tracking-tight">
                     {tab.label}
                   </span>
                 </motion.button>
