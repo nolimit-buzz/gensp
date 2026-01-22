@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3, ease: [0.6, -0.05, 0.01, 0.99] }}
-      className={`fixed top-0 left-0 right-0 z-50 h-24 transition-all duration-500 border-b border-[0.5px] border-[#1B2421] ${isScrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'}`}
+      className={`fixed top-0 left-0 right-0 z-50 h-24 transition-all duration-500 border-b border-[0.5px] border-[#1B2421] ${isScrolled ? 'bg-black/90 backdrop-blur-md' : 'bg-[#020014]/80 backdrop-blur-sm'}`}
     >
       <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
         {/* Logo */}
@@ -128,7 +128,7 @@ const Navbar: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-24 bg-[#020014]/95 backdrop-blur-md z-40 lg:hidden"
+            className="fixed inset-0 top-24 min-h-screen bg-black/80 backdrop-blur-md z-40 lg:hidden"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <motion.div

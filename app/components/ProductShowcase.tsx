@@ -8,9 +8,18 @@ const ProductShowcase: React.FC = () => {
   const [activeSidebarTab, setActiveSidebarTab] = useState(0);
 
   const ReferencePill: React.FC<{ label: string }> = ({ label }) => (
-    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[7.5px] font-medium text-white/40 ml-1 cursor-pointer hover:bg-white/10 hover:text-white/60 transition-colors">
+    <motion.span
+      whileHover={{
+        scale: 1.1,
+        backgroundColor: 'rgba(255, 255, 255, 0.15)',
+        color: 'rgba(255, 255, 255, 0.8)',
+        borderColor: 'rgba(255, 255, 255, 0.3)'
+      }}
+      whileTap={{ scale: 0.95 }}
+      className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[7.5px] font-medium text-white/40 ml-1 cursor-pointer transition-colors"
+    >
       {label}
-    </span>
+    </motion.span>
   );
 
   const mainTabs = [
@@ -131,7 +140,7 @@ const ProductShowcase: React.FC = () => {
           className="text-center mb-20"
         >
           <h2 className="text-4xl lg:text-[36px] font-bold mb-6 text-white">
-            From Research to <span className="text-white font-bold">Value Realization.</span>
+            From Research to <span className="text-[#8D9190] font-bold">Value </span>Realization.
           </h2>
           <p className="text-[18px] text-[#8D9190] max-w-2xl mx-auto font-normal">
             Combine your organizational knowledge with real-time public data and industry benchmarks into a tailored value planning workspace.
@@ -153,11 +162,11 @@ const ProductShowcase: React.FC = () => {
                 <motion.button
                   key={tab.id}
                   onClick={() => handleMainTabChange(tab.id)}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.02, x: 10 }}
                   whileTap={{ scale: 0.98 }}
                   className={`flex flex-col justify-center gap-3 px-3 sm:px-4 md:px-6 lg:px-10 h-[120px] lg:flex-shrink-0 lg:min-w-[200px] rounded-[20px] transition-all duration-300 text-left ${isActive
-                    ? 'bg-[#3A4943] shadow-xl'
-                    : 'bg-[#3A494366] border-[0.5px] border-[#80E0CC] hover:border-white/10'
+                    ? 'bg-[#3A4943] shadow-xl border border-white/20'
+                    : 'bg-[#3A494366] border-[0.5px] border-[#80E0CC] hover:border-white/40'
                     }`}
                 >
                   <div className="text-white">
@@ -214,11 +223,13 @@ const ProductShowcase: React.FC = () => {
                 {sidebarTabs.map((tab) => {
                   const isActive = activeSidebarTab === tab.id;
                   return (
-                    <button
+                    <motion.button
                       key={tab.id}
                       onClick={() => setActiveSidebarTab(tab.id)}
+                      whileHover={{ scale: 1.02, x: 5, backgroundColor: 'rgba(255, 255, 255, 0.12)' }}
+                      whileTap={{ scale: 0.98 }}
                       className={`relative flex flex-col gap-2 p-5 rounded-[20px] border transition-all duration-300 text-left cursor-pointer ${isActive
-                        ? 'bg-white/10 border-white/20'
+                        ? 'bg-white/10 border-white/20 shadow-lg shadow-black/20'
                         : 'bg-white/5 border-white/5'
                         }`}
                     >
@@ -235,7 +246,7 @@ const ProductShowcase: React.FC = () => {
                           </p>
                         )}
                       </div>
-                    </button>
+                    </motion.button>
                   );
                 })}
               </div>
@@ -246,15 +257,17 @@ const ProductShowcase: React.FC = () => {
                 <div className="flex items-center justify-start">
                   {innerTabs.map((tab, idx) => (
                     <React.Fragment key={tab}>
-                      <button
+                      <motion.button
                         onClick={() => setActiveInnerTab(idx)}
+                        whileHover={{ scale: 1.05, y: -2, backgroundColor: activeInnerTab === idx ? '#4A4D50' : '#323639' }}
+                        whileTap={{ scale: 0.95 }}
                         className={`px-4 md:px-6 py-2 rounded-full text-[8px] transition-all cursor-pointer ${activeInnerTab === idx
-                          ? 'text-white font-bold'
+                          ? 'bg-[#3A3D40] text-white font-bold'
                           : 'bg-[#2A2D30] text-white/90 hover:bg-[#323639]'
                           }`}
                       >
                         {tab}
-                      </button>
+                      </motion.button>
                       {idx < innerTabs.length - 1 && (
                         <div className="mx-1 md:mx-4 w-[1px] h-4 bg-white/10" />
                       )}
@@ -283,8 +296,12 @@ const ProductShowcase: React.FC = () => {
                     <div className="flex items-center px-2 md:px-6 gap-6">
                       <span className="flex-shrink-0 text-[7px] md:text-[9px] text-[#71D5CB] uppercase font-medium">Was this helpful</span>
                       <div className="flex gap-4">
-                        <ThumbsUp className="w-2 h-2 md:w-3.5 md:h-3.5 text-white/40 cursor-pointer hover:text-white transition-colors" />
-                        <ThumbsDown className="w-2 h-2 md:w-3.5 md:h-3.5 text-white/40 cursor-pointer hover:text-white transition-colors" />
+                        <motion.div whileHover={{ scale: 1.2, rotate: -10 }} whileTap={{ scale: 0.9 }}>
+                          <ThumbsUp className="w-2 h-2 md:w-3.5 md:h-3.5 text-white/40 cursor-pointer hover:text-white transition-colors" />
+                        </motion.div>
+                        <motion.div whileHover={{ scale: 1.2, rotate: 10 }} whileTap={{ scale: 0.9 }}>
+                          <ThumbsDown className="w-2 h-2 md:w-3.5 md:h-3.5 text-white/40 cursor-pointer hover:text-white transition-colors" />
+                        </motion.div>
                       </div>
                     </div>
                   </div>

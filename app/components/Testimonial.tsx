@@ -4,21 +4,21 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    name: "Phil Vera",
+    name: "Phil V.",
     role: "Sr. Director, Partner Growth",
     image: "/philip.png",
     quote: "We spent the past year experimenting with AI across multiple initiatives, and Gen SP was one of the only use cases we've seen that went beyond 'cool tech', driving improved execution and a documented impact on wins and efficiency across our team.",
     company: "Opentext"
   },
   {
-    name: "Natalie Bering",
+    name: "Natalie B.",
     role: "GTM Leadership & Revenue Enablement ",
     image: "/natalie.png",
     quote: "As part of a global value-selling initiative, the Gen SP AI workspace gave our teams a practical platform to practice, refine, and anchor conversations around value. More than 1,600 sellers used it as part of our enablement rollout, and it helped reinforce the mindset we were aiming for — more thoughtful, customer-centered, and outcomes-driven.",
     company: "ZScaler"
   },
   {
-    name: "Jason Reed",
+    name: "Jason R.",
     role: "Fractional CSO & Business Strategist",
     image: "/jason.png",
     quote: "We’ve engaged Gen SP across several initiatives, most recently to support a growth and whitespace assessment for one of our largest accounts in the utility and water sector. Their AI workspace delivered precise insights that constructively challenged our team and clarified where real opportunity existed. It provided credible evidence we could use with stakeholders and helped shape a smarter, more defensible growth plan.",
@@ -42,22 +42,52 @@ const Testimonial: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#b0f2d1] opacity-[0.02] rounded-full blur-[150px]"></div>
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 grid lg:grid-cols-2 gap-20 items-center">
-        <div className="text-center lg:text-left">
-          <h2 className="text-4xl lg:text-[36px] font-bold mb-8">
+        <motion.div 
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center lg:text-left"
+        >
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl lg:text-[36px] font-bold mb-8"
+          >
             Customizable, <span className="text-white/40">not <br />off-the-shelf.</span>
-          </h2>
-          <div className="text-[16px] font-normal! text-gray-400 space-y-6 max-w-md mx-auto lg:mx-0">
+          </motion.h2>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-[16px] font-normal! text-gray-400 space-y-6 max-w-md mx-auto lg:mx-0"
+          >
             <p>Gen SP is a customizable platform that anchors on the principles of strong value selling. We'll partner together to configure a set of AI prompts based on your organization's thought leadership, full solution set, target customers, etc. to create value insights curated for your sellers.</p>
             <p>This platform can be leveraged across all value planning motions – from deal acceleration to account expansion. Ultimately, enabling all of your sellers to drive <span className="text-white font-normal">more transformational deals.</span></p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="relative h-full flex flex-col justify-center mx-auto lg:mx-0">
+        <motion.div 
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="relative h-full flex flex-col justify-center mx-auto lg:mx-0"
+        >
           <div className="absolute -top-10 -right-10 text-white/5 pointer-events-none">
             <Quote size={200} />
           </div>
 
-          <div className="bg-[#0a0c10] border border-white/10 p-8 lg:p-12 rounded-[40px] relative z-10 backdrop-blur-xl min-h-[480px] max-w-[500px] flex flex-col justify-between">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="bg-[#0a0c10] border border-white/10 p-8 lg:p-12 rounded-[8px] relative z-10 backdrop-blur-xl min-h-[480px] max-w-[500px] flex flex-col justify-between"
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -75,10 +105,10 @@ const Testimonial: React.FC = () => {
                   />
                   <div>
                     <h4 className="font-bold text-[20px]">{testimonials[activeIndex].name}</h4>
-                    <p className="text-[#b0f2d1] text-[12px] uppercase tracking-widest font-bold">
+                    <p className="text-[#414946] text-[12px] uppercase tracking-widest font-bold">
                       {testimonials[activeIndex].role}
                     </p>
-                    <p className="text-[#414946] text-[12px] tracking-widest font-bold">
+                    <p className="text-[#b0f2d1] text-[14px] tracking-widest font-bold">
                       @{testimonials[activeIndex].company}
                     </p>
                   </div>
@@ -121,8 +151,8 @@ const Testimonial: React.FC = () => {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

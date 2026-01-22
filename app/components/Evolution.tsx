@@ -2,10 +2,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Zap } from 'lucide-react';
-import SalesProcessDiagram from '@/components/SalesProcessDiagram';
-import SalesProcessDiagramMobile from '@/components/SalesProcessDiagramMobile';
-import BusinessCaseProcessDiagram from '@/components/BusinessCaseProcessDiagram';
-import BusinessCaseProcessDiagramMobile from '@/components/BusinessCaseProcessDiagramMobile';
 
 const Evolution: React.FC = () => {
   const containerVariants = {
@@ -72,42 +68,24 @@ const Evolution: React.FC = () => {
 
         {/* Diagram Flow */}
         <div className="relative">
-          {/* Desktop Version */}
-          <div className="hidden lg:block">
-            {/* Traditional Process */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="relative flex justify-start w-full"
-            >
-              <SalesProcessDiagram />
-            </motion.div>
-
-            {/* Business-Driven Process */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="relative flex justify-start w-full"
-            >
-              <BusinessCaseProcessDiagram />
-            </motion.div>
-          </div>
-
-          {/* Mobile Version - Side by Side */}
-          <div className="block lg:hidden">
-            <div className="flex flex-row gap-2 w-full justify-center">
-              <div className="flex-1 min-w-0 max-w-[280px]">
-                <SalesProcessDiagramMobile width="100%" />
-              </div>
-              <div className="flex-1 min-w-0 max-w-[280px]">
-                <BusinessCaseProcessDiagramMobile width="100%" />
-              </div>
-            </div>
-          </div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="relative flex justify-center w-full"
+          >
+            <img 
+              src="/business-diagrams.png" 
+              alt="Business process diagrams" 
+              className="hidden lg:block w-full max-w-[1200px] h-auto object-contain"
+            />
+            <img 
+              src="/business-diagrams-mobile.png" 
+              alt="Business process diagrams" 
+              className="block lg:hidden w-full max-w-[600px] h-auto object-contain mx-auto"
+            />
+          </motion.div>
         </div>
       </div>
     </section>

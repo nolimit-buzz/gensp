@@ -1,9 +1,7 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
-import { ArrowRight, Play, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import BusinessCaseDiagram from '@/components/BusinessCaseDiagram';
-import BusinessCaseDiagram2 from '@/components/BusinessCaseDiagram2';
 
 const Hero: React.FC = () => {
   const containerVariants: Variants = {
@@ -48,14 +46,6 @@ const Hero: React.FC = () => {
           animate="visible"
           className="flex-1 relative text-center xl:text-left"
         >
-          <motion.div
-            variants={itemVariants}
-            className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/5 border border-white/10 text-[#80E0CC] text-[9px] xs:text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-6 sm:mb-8"
-          >
-            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#80E0CC] animate-pulse"></span>
-            Intelligence Augmented Value Engineering
-          </motion.div>
-
           <motion.h1
             variants={itemVariants}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-extrabold leading-[1.1] tracking-tight mb-6 sm:mb-8"
@@ -77,30 +67,11 @@ const Hero: React.FC = () => {
             <Link href="/book-a-demo-with-nick" className="bg-[#80E0CC] text-black px-6 py-3 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-[0_0_30px_rgba(128,224,204,0.2)] cursor-pointer">
               Book A Demo <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
             </Link>
-            <button className="px-6 py-3 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold flex items-center gap-2 border border-white/10 hover:bg-white/5 transition-all cursor-pointer">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center">
-                <Play size={12} className="sm:w-[14px] sm:h-[14px]" fill="white" />
-              </div>
-              <span>Watch Demo</span>
-            </button>
           </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="mt-8 sm:mt-12 flex flex-wrap items-center gap-4 sm:gap-8 text-gray-500 justify-center xl:justify-start"
-          >
-            <div className="flex items-center gap-2">
-              <CheckCircle2 size={14} className="sm:w-4 sm:h-4 text-[#80E0CC]" />
-              <span className="text-xs sm:text-sm font-medium">Enterprise Ready</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 size={14} className="sm:w-4 sm:h-4 text-[#80E0CC]" />
-              <span className="text-xs sm:text-sm font-medium">No Training Required</span>
-            </div>
-          </motion.div>
         </motion.div>
 
-        {/* Right Visual: Business Case Diagram Component */}
+        {/* Right Visual: Hero Image */}
         <motion.div
           variants={diagramVariants}
           initial="hidden"
@@ -108,7 +79,11 @@ const Hero: React.FC = () => {
           className="flex-1 relative flex items-center justify-center select-none w-full xl:w-auto"
         >
           <div className="relative w-full max-w-[600px] mx-auto aspect-[4/3] lg:aspect-square flex items-center justify-center">
-            <BusinessCaseDiagram2 width="100%" height="100%" />
+            <img 
+              src="/hero-image.png" 
+              alt="Hero illustration" 
+              className="w-full h-full object-contain"
+            />
           </div>
         </motion.div>
       </div>
