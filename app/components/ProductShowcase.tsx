@@ -174,7 +174,7 @@ const ProductShowcase: React.FC = () => {
           {/* Right Column Container */}
           <div className="flex-1 w-full bg-[#414946] rounded-[30px] md:rounded-[48px] p-0 lg:p-12 border-0 md:border md:border-white/10 shadow-2xl overflow-hidden">
             {/* Header Area inside Right Content */}
-            <div className="max-w-4xl mb-12 pt-4 px-8 md:pt-0 md:px-0">
+            <div className="max-w-4xl mb-12 pt-4 px-6 md:pt-0 md:px-0">
               {activeMainTab === 0 && (
                 <>
                   <h3 className="text-[14px] md:text-[16px] font-medium! text-white leading-relaxed mb-6">
@@ -243,12 +243,12 @@ const ProductShowcase: React.FC = () => {
               {/* Document Content Display */}
               <div className="flex-1 flex flex-col gap-4">
                 {/* Inner Document Tabs */}
-                <div className="flex items-center">
+                <div className="flex items-center justify-start">
                   {innerTabs.map((tab, idx) => (
                     <React.Fragment key={tab}>
                       <button
                         onClick={() => setActiveInnerTab(idx)}
-                        className={`px-6 py-2 rounded-full text-[8px] transition-all cursor-pointer ${activeInnerTab === idx
+                        className={`px-4 md:px-6 py-2 rounded-full text-[8px] transition-all cursor-pointer ${activeInnerTab === idx
                           ? 'text-white font-bold'
                           : 'bg-[#2A2D30] text-white/90 hover:bg-[#323639]'
                           }`}
@@ -256,7 +256,7 @@ const ProductShowcase: React.FC = () => {
                         {tab}
                       </button>
                       {idx < innerTabs.length - 1 && (
-                        <div className="mx-4 w-[1px] h-4 bg-white/10" />
+                        <div className="mx-1 md:mx-4 w-[1px] h-4 bg-white/10" />
                       )}
                     </React.Fragment>
                   ))}
