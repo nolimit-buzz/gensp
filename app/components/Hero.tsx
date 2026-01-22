@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-max md:min-h-screen  items-center pt-24 md:pt-50 lg:pt-50 xl:pt-24 pb-8 sm:pb-12 overflow-hidden">
+    <section className="relative min-h-max md:min-h-screen items-center pt-24 md:pt-50 lg:pt-50 pb-8 sm:pb-12 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20 flex flex-col xl:flex-row gap-8 sm:gap-12 lg:gap-16 items-center w-full relative z-10">
         {/* Left Content */}
         <motion.div

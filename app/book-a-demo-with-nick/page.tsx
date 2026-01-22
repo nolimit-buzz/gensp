@@ -123,18 +123,21 @@ const BookADemoPage: React.FC = () => {
               </motion.div>
             )}
           </AnimatePresence>
-          <iframe
-            src="https://calendly.com/nickwasser-perform-llc/30min?embed_domain=gen-sp.netlify.app&embed_type=Inline"
-            width="100%"
-            height="700"
-            frameBorder="0"
-            title="Select a Date & Time - Calendly"
-            className={`w-full rounded-2xl scrollbar-hide! transition-opacity duration-300 ${
-              isLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
-            }`}
-            onLoad={() => setIsLoading(false)}
-            style={{ visibility: isLoading ? 'hidden' : 'visible' }}
-          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isLoading ? 0 : 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <iframe
+              src="https://calendly.com/nickwasser-perform-llc/30min?embed_domain=gen-sp.netlify.app&embed_type=Inline"
+              width="100%"
+              height="700"
+              frameBorder="0"
+              title="Select a Date & Time - Calendly"
+              className="w-full rounded-2xl scrollbar-hide!"
+              onLoad={() => setIsLoading(false)}
+            />
+          </motion.div>
         </div>
       </main>
     </div>
