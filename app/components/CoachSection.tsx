@@ -122,7 +122,7 @@ const CoachSection: React.FC = () => {
             className="flex flex-col bg-[#414946] rounded-b-3xl lg:rounded-3xl overflow-hidden min-h-[600px] shadow-2xl border-[0.5px] border-t-0 border-white/10 relative z-20"
           >
             {/* Coach Header */}
-            <div className="p-8 pb-6 flex items-center gap-4">
+            <div className="hidden lg:flex p-8 pb-6 items-center gap-4">
               <div className="w-10 h-10 rounded-full border border-[#71D5CB]/30 flex items-center justify-center bg-black/20 flex-shrink-0">
                 <Bot size={20} className="text-[#71D5CB]" />
               </div>

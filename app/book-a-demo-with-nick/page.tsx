@@ -7,7 +7,7 @@ const BookADemoPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const SkeletonLoader = () => (
-    <div className="w-full max-w-[900px] mx-auto mt-12 h-[550px] rounded-2xl bg-[#050707F2]/95 border border-white/5 overflow-hidden animate-pulse">
+    <div className="w-full max-w-[900px] mx-auto mt-12 h-[550px] rounded-2xl bg-[#050707F2]/95 border border-white/5 overflow-hidden">
       <div className="flex flex-col lg:flex-row h-full">
         {/* Left Panel - Event Details */}
         <div className="lg:w-1/3 border-b lg:border-b-0 lg:border-r border-white/5 p-4 md:p-6 space-y-4">
@@ -123,21 +123,18 @@ const BookADemoPage: React.FC = () => {
               </motion.div>
             )}
           </AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isLoading ? 0 : 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <iframe
-              src="https://calendly.com/nickwasser-perform-llc/30min?embed_domain=gen-sp.netlify.app&embed_type=Inline"
-              width="100%"
-              height="700"
-              frameBorder="0"
-              title="Select a Date & Time - Calendly"
-              className="w-full rounded-2xl scrollbar-hide!"
-              onLoad={() => setIsLoading(false)}
-            />
-          </motion.div>
+          <iframe
+            src="https://calendly.com/nickwasser-perform-llc/30min?embed_domain=gen-sp.netlify.app&embed_type=Inline"
+            width="100%"
+            height="700"
+            frameBorder="0"
+            title="Select a Date & Time - Calendly"
+            className={`w-full rounded-2xl scrollbar-hide! transition-opacity duration-300 ${
+              isLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            }`}
+            onLoad={() => setIsLoading(false)}
+            style={{ visibility: isLoading ? 'hidden' : 'visible' }}
+          />
         </div>
       </main>
     </div>
