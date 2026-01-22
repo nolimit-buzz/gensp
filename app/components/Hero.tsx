@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
         >
           <div className="relative w-full max-w-[600px] mx-auto aspect-[4/3] lg:aspect-square flex items-center justify-center">
             <img 
-              src="/hero-image.png" 
+              src="/hero-image.svg" 
               alt="Hero illustration" 
               className="w-full h-full object-contain"
             />
