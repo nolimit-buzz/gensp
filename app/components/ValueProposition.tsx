@@ -6,18 +6,15 @@ const ValueProposition: React.FC = () => {
   const features = [
     {
       icon: <Users size={20} className="text-[#2B4B44]" />,
-      title: "Scale value selling across the whole team – not just your top reps.",
-      active: false
+      title: "Scale value selling across the whole team – not just your top reps."
     },
     {
       icon: <TrendingUp size={20} className="text-[#80E0CC]" />,
-      title: "Enable sellers to consistently uncover broader, larger customer issues to attack.",
-      active: true
+      title: "Enable sellers to consistently uncover broader, larger customer issues to attack."
     },
     {
       icon: <Bot size={22} className="text-[#2B4B44]" />,
-      title: "Turn AI from a novelty into a repeatable, revenue-generating workflow.",
-      active: false
+      title: "Turn AI from a novelty into a repeatable, revenue-generating workflow."
     }
   ];
 
@@ -25,8 +22,9 @@ const ValueProposition: React.FC = () => {
 
   return (
     <section id="outcomes" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-[#020014]">
-      <div className="max-w-[1240px] mx-auto bg-[#050707F2]/95 rounded-none lg:rounded-[48px] p-6 md:p-12 lg:p-20 border border-white/5">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20">
+        <div className="bg-[#050707F2]/95 rounded-none lg:rounded-[48px] p-6 md:p-12 lg:p-20 border border-white/5">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
 
           {/* Left Column: The Main Card */}
           <motion.div
@@ -69,15 +67,9 @@ const ValueProposition: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 + idx * 0.1 }}
-                className={`flex items-center gap-6 p-6 rounded-[24px] transition-all duration-300 ${feature.active
-                  ? "bg-[#80E0CC]/[0.03] border border-[#80E0CC]/15"
-                  : "bg-transparent border border-transparent hover:bg-white/[0.02]"
-                  }`}
+                className="flex items-center gap-6 p-6 rounded-[24px] transition-all duration-300 bg-transparent border border-transparent hover:bg-[#80E0CC]/[0.03] hover:border-[#80E0CC]/15"
               >
-                <div className={`flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-all ${feature.active
-                  ? "bg-[#1B2421] border border-[#80E0CC]/30"
-                  : "bg-[#121816] border border-white/5"
-                  }`}>
+                <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-all bg-[#121816] border border-white/5 hover:bg-[#1B2421] hover:border-[#80E0CC]/30">
                   {feature.icon}
                 </div>
                 <p className="text-[16px] leading-[1.5] text-[#80E0CC] font-normal flex-1">
@@ -86,7 +78,7 @@ const ValueProposition: React.FC = () => {
               </motion.div>
             ))}
           </div>
-
+          </div>
         </div>
       </div>
     </section>

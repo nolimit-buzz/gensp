@@ -21,7 +21,7 @@ const Evolution: React.FC = () => {
 
   return (
     <section id="the-shift" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-[#020014] relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -73,7 +73,7 @@ const Evolution: React.FC = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="relative flex justify-center w-full"
+            className="relative flex justify-start w-max mx-auto"
           >
             <img 
               src="/business-diagrams.png" 

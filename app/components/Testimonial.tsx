@@ -41,7 +41,7 @@ const Testimonial: React.FC = () => {
     <section className="py-32 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#b0f2d1] opacity-[0.02] rounded-full blur-[150px]"></div>
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 grid lg:grid-cols-2 gap-20 items-center">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 grid lg:grid-cols-2 gap-20 items-center justify-between">
         <motion.div 
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -86,7 +86,7 @@ const Testimonial: React.FC = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-[#0a0c10] border border-white/10 p-8 lg:p-12 rounded-[8px] relative z-10 backdrop-blur-xl min-h-[480px] max-w-[500px] flex flex-col justify-between"
+            className="bg-[#0a0c10] border border-white/10 p-8 lg:p-12 rounded-[30px] relative z-10 backdrop-blur-xl min-h-[480px] max-w-[500px] flex flex-col justify-between self-end"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -138,14 +138,14 @@ const Testimonial: React.FC = () => {
                 <button
                   onClick={prev}
                   aria-label="Previous testimonial"
-                  className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-[#b0f2d1]/40 transition-all active:scale-90 cursor-pointer"
+                  className="w-12 h-12 rounded-[8px] border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-[#b0f2d1]/40 transition-all active:scale-90 cursor-pointer"
                 >
                   <ChevronLeft size={20} />
                 </button>
                 <button
                   onClick={next}
                   aria-label="Next testimonial"
-                  className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-[#b0f2d1]/40 transition-all active:scale-90 cursor-pointer"
+                  className="w-12 h-12 rounded-[8px] border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-[#b0f2d1]/40 transition-all active:scale-90 cursor-pointer"
                 >
                   <ChevronRight size={20} />
                 </button>

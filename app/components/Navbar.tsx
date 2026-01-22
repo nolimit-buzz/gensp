@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
       transition={{ duration: 0.3, ease: [0.6, -0.05, 0.01, 0.99] }}
       className={`fixed top-0 left-0 right-0 z-50 h-24 transition-all duration-500 border-b border-[0.5px] border-[#1B2421] ${isScrolled ? 'bg-black/90 backdrop-blur-md' : 'bg-[#020014]/80 backdrop-blur-sm'}`}
     >
-      <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 h-full flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 cursor-pointer group">
           <div>
