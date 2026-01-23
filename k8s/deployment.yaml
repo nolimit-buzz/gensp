@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gen-sp-deployment
+  namespace: gen-sp
+  labels:
+    app: gen-sp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gen-sp
+  template:
+    metadata:
+      labels:
+        app: gen-sp
+    spec:
+      containers:
+      - name: gen-sp
+        image: registry.digitalocean.com/brevet/gen-sp:latest
+        ports:
+        - containerPort: 80
+          name: http
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+      imagePullSecrets:
+      - name: registry-secret
