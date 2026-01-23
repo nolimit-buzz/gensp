@@ -6,61 +6,100 @@ interface TabImageDisplayProps {
 }
 
 const TabImageDisplay: React.FC<TabImageDisplayProps> = ({ activeMainTab }) => {
-  const getImagePaths = () => {
-    switch (activeMainTab) {
-      case 0:
-        return {
-          desktop: '/situational-analysis.png',
-          mobile: '/situational-analysis-mobile.png',
-          alt: 'Situational Analysis'
-        };
-      case 1:
-        return {
-          desktop: '/value-hypothesis.png',
-          mobile: '/value-hypothesis-mobile.png',
-          alt: 'Value Hypothesis'
-        };
-      case 2:
-        return {
-          desktop: '/business-case.png',
-          mobile: '/business-case-mobile.png',
-          alt: 'Business Case'
-        };
-      default:
-        return {
-          desktop: '/situational-analysis.png',
-          mobile: '/situational-analysis-mobile.png',
-          alt: 'Situational Analysis'
-        };
-    }
-  };
-
-  const { desktop, mobile, alt } = getImagePaths();
-
-  return (
-    <div className="w-full">
-      {/* Desktop Image */}
-      <div className="hidden md:block">
-        <Image 
-          src={desktop} 
-          width={1000} 
-          height={1000} 
-          className="w-full h-auto" 
-          alt={alt} 
-        />
-      </div>
-      {/* Mobile Image */}
-      <div className="block md:hidden">
-        <Image 
-          src={mobile} 
-          width={1000} 
-          height={1000} 
-          className="w-full h-auto" 
-          alt={alt} 
-        />
-      </div>
-    </div>
-  );
+  switch (activeMainTab) {
+    case 0:
+      return (
+        <div className="w-full">
+          <div className="hidden md:block">
+            <Image 
+              src="/situational-analysis.png" 
+              width={1000} 
+              height={1000} 
+              className="w-full h-auto" 
+              alt="Situational Analysis" 
+            />
+          </div>
+          <div className="block md:hidden">
+            <Image 
+              src="/situational-analysis-mobile.png" 
+              width={1000} 
+              height={1000} 
+              className="w-full h-auto" 
+              alt="Situational Analysis" 
+            />
+          </div>
+        </div>
+      );
+    case 1:
+      return (
+        <div className="w-full">
+          <div className="hidden md:block">
+            <Image 
+              src="/value-hypothesis.png" 
+              width={1000} 
+              height={1000} 
+              className="w-full h-auto" 
+              alt="Value Hypothesis" 
+            />
+          </div>
+          <div className="block md:hidden">
+            <Image 
+              src="/value-hypothesis-mobile.png" 
+              width={1000} 
+              height={1000} 
+              className="w-full h-auto" 
+              alt="Value Hypothesis" 
+            />
+          </div>
+        </div>
+      );
+    case 2:
+      return (
+        <div className="w-full">
+          <div className="hidden md:block">
+            <Image 
+              src="/business-case.png" 
+              width={1000} 
+              height={1000} 
+              className="w-full h-auto" 
+              alt="Business Case" 
+            />
+          </div>
+          <div className="block md:hidden">
+            <Image 
+              src="/business-case-mobile.png" 
+              width={1000} 
+              height={1000} 
+              className="w-full h-auto" 
+              alt="Business Case" 
+            />
+          </div>
+        </div>
+      );
+    default:
+      return (
+        <div className="w-full">
+          <div className="hidden md:block">
+            <Image 
+              src="/situational-analysis.png" 
+              width={1000} 
+              height={1000} 
+              className="w-full h-auto" 
+              alt="Situational Analysis" 
+            />
+          </div>
+          <div className="block md:hidden">
+            <Image 
+              src="/situational-analysis-mobile.png" 
+              width={1000} 
+              height={1000} 
+              className="w-full h-auto" 
+              alt="Situational Analysis" 
+            />
+          </div>
+        </div>
+      );
+  }
 };
 
 export default TabImageDisplay;
