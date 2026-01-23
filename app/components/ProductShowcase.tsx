@@ -1246,10 +1246,10 @@ const ProductShowcase: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col xl:flex-row gap-12 items-start"
+          className="flex flex-col lg:flex-row gap-12 items-start"
         >
           {/* Main Left Sidebar */}
-          <div className="flex flex-row xl:flex-col gap-2 md:gap-5 w-full lg:w-[320px] min-w-0 xl:overflow-x-visible pb-2 lg:pb-0 scrollbar-hide">
+          <div className="flex flex-row lg:flex-col gap-2 md:gap-5 w-full lg:w-[240px] xl:w-[320px] min-w-0 xl:overflow-x-visible pb-2 lg:pb-0 scrollbar-hide overflow-x-hidden lg:overflow-x-visible">
             {mainTabs.map((tab) => {
               const isActive = activeMainTab === tab.id;
               return (
@@ -1259,8 +1259,8 @@ const ProductShowcase: React.FC = () => {
                   whileHover={{ scale: 1.02, x: 10 }}
                   whileTap={{ scale: 0.98 }}
                   className={`flex flex-col justify-center gap-3 px-3 sm:px-4 md:px-6 lg:px-10 h-[120px] lg:flex-shrink-0 lg:min-w-[200px] rounded-[20px] transition-all duration-300 text-left ${isActive
-                    ? 'bg-[#3A4943] shadow-xl border border-white/20 xl:w-auto w-[140px] flex-shrink-0'
-                    : 'bg-[#3A494366] border-[0.5px] border-[#80E0CC] hover:border-white/40 xl:w-auto w-[120px] flex-shrink-0'
+                    ? 'bg-[#3A4943] shadow-xl border border-white/20 flex-[1.2_1_0%] lg:flex-initial xl:flex-initial xl:w-full min-w-0'
+                    : 'bg-[#3A494366] border-[0.5px] border-[#80E0CC] hover:border-white/40 flex-[0.9_1_0%] lg:flex-initial xl:flex-initial xl:w-full min-w-0'
                     }`}
                 >
                   <div className="text-white">
@@ -1311,7 +1311,7 @@ const ProductShowcase: React.FC = () => {
             </div>
 
             {/* Nested Component View */}
-            <div className="bg-[#131314] lg:rounded-[32px] px-4 lg:px-8 pt-4 lg:pt-8 flex flex-col lg:flex-row gap-8 items-stretch min-h-[600px]">
+            <div className="flex flex-col lg:flex-row gap-8 items-stretch min-h-[600px]">
               {/* Inner Sidebar Tabs */}
               {/* <div className="hidden lg:flex flex-col gap-4 w-[240px]">
                 {sidebarTabs.map((tab) => {
