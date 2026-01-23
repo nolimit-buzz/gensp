@@ -108,9 +108,9 @@ const Testimonial: React.FC = () => {
                     <p className="text-[#414946] text-[12px] uppercase tracking-widest font-bold">
                       {testimonials[activeIndex].role}
                     </p>
-                    <p className="text-[#b0f2d1] text-[14px] tracking-widest font-bold">
+                    {testimonials[activeIndex].company && <p className="text-[#b0f2d1] text-[14px] tracking-widest font-bold">
                       @{testimonials[activeIndex].company}
-                    </p>
+                    </p>}
                   </div>
                 </div>
 
