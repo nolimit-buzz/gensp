@@ -1,26 +1,1120 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Lightbulb, Briefcase, ThumbsUp, ThumbsDown, TrendingUp } from 'lucide-react';
+import BusinessCaseContent from './BusinessCaseContent';
+import ValueHypothesisContent from './ValueHypothesisContent';
+import SituationalAnalysisContent from './SituationalAnalysisContent';
+import TabImageDisplay from './TabImageDisplay';
+import Image from 'next/image'
+const ReferencePill: React.FC<{ label: string }> = ({ label }) => (
+  <motion.span
+    whileHover={{
+      scale: 1.1,
+      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+      color: 'rgba(255, 255, 255, 0.8)',
+      borderColor: 'rgba(255, 255, 255, 0.3)'
+    }}
+    whileTap={{ scale: 0.95 }}
+    className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[7.5px] font-medium text-white/40 ml-1 cursor-pointer transition-colors"
+  >
+    {label}
+  </motion.span>
+);
+
+interface GenSPDocumentViewerProps {
+  activeMainTab: number;
+  activeInnerTab: number;
+  setActiveInnerTab: (tabIndex: number) => void;
+  innerTabs: string[];
+}
+
+const GenSPDocumentViewer: React.FC<GenSPDocumentViewerProps> = ({
+  activeMainTab,
+  activeInnerTab,
+  setActiveInnerTab,
+  innerTabs,
+}) => {
+  return (
+    <div className="flex-1 flex flex-col gap-4">
+      {/* Inner Document Tabs */}
+      <div className="flex items-center justify-start">
+        {innerTabs.map((tab, idx) => (
+          <React.Fragment key={tab}>
+            <motion.button
+              onClick={() => setActiveInnerTab(idx)}
+              whileHover={{
+                scale: 1.05,
+                y: -2,
+                backgroundColor: activeInnerTab === idx ? '#4A4D50' : '#323639',
+              }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-4 md:px-6 py-2 rounded-full text-[8px] transition-all cursor-pointer ${
+                activeInnerTab === idx
+                  ? 'bg-[#3A3D40] text-white font-bold'
+                  : 'bg-[#2A2D30] text-white/90 hover:bg-[#323639]'
+              }`}
+            >
+              {tab}
+            </motion.button>
+            {idx < innerTabs.length - 1 && (
+              <div className="mx-1 md:mx-4 w-[1px] h-4 bg-white/10" />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* Document Card */}
+      <div className="bg-[#151719] rounded-t-[24px] overflow-hidden flex flex-col h-[600px] lg:h-[800px]">
+        {/* Header */}
+        <div className="border-b border-white/5 flex items-stretch h-14">
+          {/* Logo Section */}
+          <div className="px-2 lg:px-6 flex items-center justify-center border-r border-white/5">
+            <svg
+              className="w-6 md:w-8"
+              width="23"
+              height="21"
+              viewBox="0 0 23 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M2.09289 2.96308C3.17109 2.96308 4.04222 3.83885 4.04222 4.90685C4.04222 5.98197 3.17109 6.85061 2.09289 6.85061C1.01469 6.85061 0.143555 5.98197 0.143555 4.90685C0.143555 3.83885 1.01469 2.96308 2.09289 2.96308ZM19.0371 2.4718C19.844 2.4718 20.5009 3.12684 20.5009 3.93141C20.5009 4.73597 19.844 5.38389 19.0371 5.38389C18.2302 5.38389 17.5733 4.73597 17.5733 3.93141C17.5733 3.12684 18.2302 2.4718 19.0371 2.4718ZM20.8793 7.60534C21.6862 7.60534 22.3431 8.26038 22.3431 9.06494C22.3431 9.8695 21.6862 10.5245 20.8793 10.5245C20.0725 10.5245 19.4155 9.8695 19.4155 9.06494C19.4155 8.26038 20.0725 7.60534 20.8793 7.60534ZM18.6801 11.9272C19.4941 11.9272 20.1439 12.5822 20.1439 13.3868C20.1439 14.1914 19.4941 14.8464 18.6801 14.8464C17.8732 14.8464 17.2234 14.1914 17.2234 13.3868C17.2234 12.5822 17.8732 11.9272 18.6801 11.9272ZM12.0466 15.8574C12.8535 15.8574 13.5104 16.5125 13.5104 17.317C13.5104 18.1216 12.8535 18.7766 12.0466 18.7766C11.2398 18.7766 10.5828 18.1216 10.5828 17.317C10.5828 16.5125 11.2398 15.8574 12.0466 15.8574ZM7.69097 16.9966C8.49784 16.9966 9.15476 17.6517 9.15476 18.4562C9.15476 19.2608 8.49784 19.9159 7.69097 19.9159C6.88411 19.9159 6.22719 19.2608 6.22719 18.4562C6.22719 17.6517 6.88411 16.9966 7.69097 16.9966ZM2.61414 11.9628C3.6852 11.9628 4.56347 12.8314 4.56347 13.9066C4.56347 14.9817 3.6852 15.8503 2.61414 15.8503C1.53594 15.8503 0.664805 14.9817 0.664805 13.9066C0.664805 12.8314 1.53594 11.9628 2.61414 11.9628ZM11.0113 4.28029C13.4319 4.28029 15.3955 6.23829 15.3955 8.65198C15.3955 11.0657 13.4319 13.0237 11.0113 13.0237C8.59066 13.0237 6.62705 11.0657 6.62705 8.65198C6.62705 6.23829 8.59066 4.28029 11.0113 4.28029ZM7.06976 0.143555C7.87662 0.143555 8.53354 0.798597 8.53354 1.60316C8.53354 2.40772 7.87662 3.05564 7.06976 3.05564C6.26289 3.05564 5.60597 2.40772 5.60597 1.60316C5.60597 0.798597 6.26289 0.143555 7.06976 0.143555Z"
+                fill="#71D5CB"
+              />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M20.7935 8.72372L19.3583 4.90739L19.444 4.87891L20.8792 8.70236L20.7935 8.72372ZM2.18562 4.89315L6.86974 1.68202L6.91972 1.7461L2.23561 4.95723L2.18562 4.89315ZM7.5695 2.09498L9.22607 4.67955L9.19037 4.70803L7.53379 2.11634L7.5695 2.09498ZM2.8354 14.2133L11.0897 8.55996L11.1683 8.67388L2.91395 14.3272L2.8354 14.2133ZM3.1353 15.1816L6.83403 18.3571L6.78405 18.4069L3.09246 15.2314L3.1353 15.1816ZM8.32638 18.0723L11.3182 17.6522L11.3254 17.7163L8.32638 18.1364V18.0723ZM13.289 9.67068L18.8514 13.188L18.7585 13.309L13.1961 9.79173L13.289 9.67068ZM19.1584 12.5685L20.815 10.0409L20.865 10.0836L19.2084 12.6113L19.1584 12.5685Z"
+                fill="#71D5CB"
+                fillOpacity="0.6"
+              />
+            </svg>
+          </div>
+
+          {/* GenSP Section */}
+          <div className="flex-1 flex items-center px-4 lg:px-6 border-r border-white/5">
+            <span className="text-white font-bold text-[10px] lg:text-[13px] tracking-tight">
+              GenSP
+            </span>
+          </div>
+
+          {/* Helpful Section */}
+          <div className="flex items-center px-2 md:px-6 gap-6">
+            <span className="flex-shrink-0 text-[7px] md:text-[9px] text-[#71D5CB] uppercase font-medium">
+              Was this helpful
+            </span>
+            <div className="flex gap-4">
+              <motion.div whileHover={{ scale: 1.2, rotate: -10 }} whileTap={{ scale: 0.9 }}>
+                <ThumbsUp className="w-2 h-2 md:w-3.5 md:h-3.5 text-white/40 cursor-pointer hover:text-white transition-colors" />
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.2, rotate: 10 }} whileTap={{ scale: 0.9 }}>
+                <ThumbsDown className="w-2 h-2 md:w-3.5 md:h-3.5 text-white/40 cursor-pointer hover:text-white transition-colors" />
+              </motion.div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scrollable Document Content */}
+        <div className="flex-1 overflow-y-auto px-4 lg:px-8 py-4 custom-scrollbar">
+          <div className="max-w-2xl mx-auto space-y-8">
+            {/* Situational Analysis Content */}
+            {activeMainTab === 0 && (
+              <>
+                {/* Section 1: Wildfire Risk */}
+                <div className="space-y-1">
+                  <h3 className="text-[9px] font-bold text-white leading-tight">
+                    1. Wildfire risk: the existential problem that's insanely expensive to solve
+                  </h3>
+                  <div className="space-y-2">
+                    <p className="text-[9px] font-bold text-white/90 leading-tight">What they're doing</p>
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Acme has now undergrounded 1,000 miles of lines in high fire-risk areas,
+                        removing 8.4% of system-wide ignition risk since 2023 and targeting 1,600
+                        miles undergrounded and ~18% risk reduction by the end of 2026.{' '}
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">
+                          Acme Corporation
+                        </span>
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • The cost per mile of undergrounding has fallen from $4M to $3.1M in 2025 as
+                        they scale the program.{' '}
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">
+                          Acme Corporation
+                        </span>
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Their wildfire plan says operational programs (vegetation management,
+                        inspections, system hardening) can achieve about a 40% risk reduction in high
+                        fire-risk zones over 1–2 years.{' '}
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">
+                          CancerHub
+                        </span>
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">
+                      Why this is still a massive challenges
+                    </p>
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Even at the improved $3.1M/mile, those 1,000 miles already represent roughly
+                        $3.1B of capital. A full 10,000-mile undergrounding vision is tens of billions in
+                        today's dollars.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Wildfire safety is largely funded through customer bills and wildfire fund
+                        contributions, plus some securitized debt. The Q3 2025 earnings materials show
+                        "unrecoverable net interest" associated with wildfire fund financing and other
+                        debt that isn't fully in rates.{' '}
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">
+                          Q3 CapitolX
+                        </span>
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Their own wildfire mitigation update is explicit that even after big risk
+                        reductions, there's residual tail risk; and earnings guidance can't cleanly
+                        forecast wildfire-related costs because they depend on weather, legal outcomes,
+                        and policy.
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">
+                      What it costs them if they don't solve it
+                    </p>
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Another catastrophic fire could easily be a tens-of-billions-of-dollars event
+                        (based on past fire settlements and bankruptcy history), triggering rating
+                        downgrades, political blowback, and equity dilution.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Failing to keep ignition metrics moving down threatens their "safety
+                        certificate" and cost recovery.{' '}
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">
+                          Q3 CapitolX
+                        </span>
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-normal text-white/50 italic leading-tight pt-1">
+                      So wildfire risk is not just a line item—it's existential risk on the balance sheet
+                      and license to operate, with a cost base in the tens of billions.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Section 2: Affordability */}
+                <div className="space-y-1">
+                  <h3 className="text-[9px] font-bold text-white leading-tight">
+                    2. Affordability vs capital intensity: caught between angry customers and a $73B
+                    capex plan
+                  </h3>
+                  <div className="space-y-2">
+                    <p className="text-[9px] font-bold text-white/90 leading-tight">
+                      Where bills are today
+                    </p>
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Acme rates have risen ~101% from 2015 to 2025.{' '}
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">
+                          NBC Bay Area
+                        </span>
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • 2024 alone added about $440/year to the average residential bill.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • In 2025, average monthly bills are around $294, and about 1 in 5 customers is
+                        behind on payments.{' '}
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">
+                          SF Chronicle
+                        </span>
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">
+                      Their plan to stabilize bills
+                    </p>
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Acme's 2027–2030 General Rate Case proposal implies a 3.6% bill increase in
+                        2027, but expiring charges mean total bills are expected to be flat.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • DOE's $15B federal loan guarantee (Project Polaris) is framed to save customers
+                        up to $1B.
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">
+                      The challenge
+                    </p>
+                    <p className="text-[9px] font-normal text-white/60 leading-tight">
+                      At the same time, Acme has a $73B 2026–2030 capital plan. Any slip—capex overruns,
+                      wildfire surprises, O&M savings not materializing—shows up either as higher bills or
+                      weakened credit.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Section 3: Data Centers & Grid Build */}
+                <div className="space-y-1">
+                  <h3 className="text-[9px] font-bold text-white leading-tight">
+                    3. Executing a $73B grid build for AI/data centers & electrification without
+                    tripping over themselves
+                  </h3>
+                  <div className="space-y-2">
+                    <p className="text-[9px] font-bold text-white/90 leading-tight">The plan</p>
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Acme expects about 10 GW of new demand over the next decade, largely from data
+                        centers.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • As of late 2025, they report 9.6 GW of data-center projects in their
+                        interconnection queue.
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">
+                      Execution challenges
+                    </p>
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Pipeline volatility: The pipeline has already shrunk from earlier quarters (~10
+                        GW down to 9.6 GW).
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Permitting & interconnection timing: Large data centers need new substations and
+                        transmission upgrades.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Management has committed to avoiding ramped capex beyond what credit metrics can
+                        support.
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-normal text-white/50 italic leading-tight pt-1">
+                      Delay or cancellation reduces the incremental revenue counted on to spread fixed
+                      costs and lower average bills.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Section 4: Regulatory */}
+                <div className="space-y-1">
+                  <h3 className="text-[9px] font-bold text-white leading-tight">
+                    4. Regulatory and policy uncertainty: CPUC, wildfire law, and cost of capital
+                  </h3>
+                  <div className="space-y-2">
+                    <p className="text-[9px] font-normal text-white/70 leading-tight">
+                      The Q3 2025 earnings deck maps out a dense calendar: cost of capital decisions,
+                      wildfire fund reviews, and safety certificate renewals through 2026.
+                    </p>
+                    <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">
+                      Key friction points
+                    </p>
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Acme has asked to raise Authorized ROE from 10.3% to 11.3%, adding ~$5.50/month
+                        to bills.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • SB 254 obligations remain a massive $18B liability for the Wildfire Fund.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Section 5: O&M Efficiency */}
+                <div className="space-y-1">
+                  <h3 className="text-[9px] font-bold text-white leading-tight">
+                    5. Sustained O&M efficiency and organizational change
+                  </h3>
+                  <div className="space-y-2">
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • 2023 reduction: 5.5%
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • 2024 reduction: 4%
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Ongoing target: 2-3%
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
+                      The easy wins are already baked in. Deeper savings now require re-engineering work
+                      management and reskilling a unionized workforce.
+                    </p>
+                    <p className="text-[9px] text-white/90 font-normal italic leading-tight">
+                      Under-delivery here undermines their entire narrative of a simple, affordable model.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Section 6: Customer Trust */}
+                <div className="space-y-1">
+                  <h3 className="text-[9px] font-bold text-white leading-tight">
+                    6. Customer trust and social licence: lowest satisfaction in the sector
+                  </h3>
+                  <div className="space-y-2">
+                    <p className="text-[9px] font-normal text-white/70 leading-tight inline">
+                      • ACSI 2025 satisfaction score: 66 (down 8% from 72)
+                    </p>
+                    <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
+                      Last among all major U.S. utilities. This directly constrains their leverage for
+                      rate increases and big infrastructure programs.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Section 7: Digital & AI */}
+                <div className="space-y-1">
+                  <h3 className="text-[9px] font-bold text-white leading-tight">
+                    7. Digital, AI, and data: high expectations, messy reality
+                  </h3>
+                  <div className="space-y-2">
+                    <ul className="space-y-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Layering AI on top of decades of legacy systems and siloed operational
+                        datasets.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Stalling at "cool pilot, no scale" across 28k employees.
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • Expanded attack surface as they open the grid to virtual power plants.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Section 8: Gas Business */}
+                <div className="space-y-1">
+                  <h3 className="text-[9px] font-bold text-white leading-tight">
+                    8. Gas business and the risk of stranded assets
+                  </h3>
+                  <div className="space-y-2">
+                    <p className="text-[9px] font-normal text-white/70 leading-tight">
+                      As gas consumption falls, fixed costs don't. Remaining customers could see charges
+                      rise sharply.
+                    </p>
+                    <p className="text-[9px] font-normal text-white/60 leading-tight pt-1">
+                      If regulators decide gas assets are no longer "used and useful," portions of the
+                      rate base could be written down.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Summary Conclusion */}
+                <div className="mt-6">
+                  <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight">
+                    Executive tensions view
+                  </p>
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <p className="text-[9px] font-bold text-white/90 leading-tight">
+                        Safety vs affordability
+                      </p>
+                      <p className="text-[9px] text-white/50 leading-tight">
+                        Undergrounding is a $5B+ need, but 1 in 5 can't keep up with bills.
+                      </p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[9px] font-bold text-white/90 leading-tight">
+                        Growth vs execution risk
+                      </p>
+                      <p className="text-[9px] text-white/50 leading-tight">
+                        Data centers can lower bills but the pipeline is highly fluid.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Value Hypothesis Content */}
+            {activeMainTab === 1 && (
+              <div className="space-y-8">
+                {activeInnerTab === 0 && (
+                  /* Value Hypothesis 2 - Grid & Load Growth */
+                  <div className="space-y-6">
+                    <div className="space-y-1">
+                      <h3 className="text-[9px] font-bold text-white leading-tight">
+                        Value Hypothesis 2
+                      </h3>
+                      <p className="text-[9px] font-bold text-white leading-tight">
+                        “Acme can turn its $73B grid & load-growth plan into a net affordability and
+                        earnings engine — if it gets the bill math, large-load strategy, and O&M execution
+                        right.”
+                      </p>
+                      <div className="space-y-2">
+                        <p className="text-[9px] font-bold text-white leading-tight pt-1">
+                          Core idea (customer-facing):
+                        </p>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight">
+                          Acme wants to invest $73B through 2030 to handle ~10 GW of new data-center and
+                          electrification load, while promising flat or modestly increasing bills after
+                          massive 2024 hikes.
+                          <ReferencePill label="CPUC Case" />
+                        </p>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight">
+                          To make that math work, three things must hold simultaneously:
+                        </p>
+                        <ul className="space-y-1 pl-1">
+                          <li className="text-[9px] font-normal text-white/70 leading-tight">
+                            • Large loads show up (and stay) where planned,
+                          </li>
+                          <li className="text-[9px] font-normal text-white/70 leading-tight">
+                            • O&M keeps falling 2–3% annually, and
+                          </li>
+                          <li className="text-[9px] font-normal text-white/70 leading-tight">
+                            • Financing benefits (like DOE’s $15B low-cost loan{' '}
+                            <ReferencePill label="LPO Program" /> and wildfire fund reforms) actually flow
+                            through to customers
+                          </li>
+                        </ul>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
+                          our company’s hypothesis: by building a coherent affordability & growth
+                          playbook, Acme can use growth and efficiency to relieve bill pressure and hit
+                          its earnings/credit targets, rather than letting these forces work against each
+                          other.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-[9px] font-bold text-white leading-tight pt-1">
+                        Subthemes / potential workstreams
+                      </p>
+                      <ul className="space-y-4">
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Affordability “Flight Simulator” for the C-Suite
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Create a single, trusted model that connects: grid capex by category,
+                            data-center / large load pipeline scenarios, O&M reduction paths, financing
+                            (DOE loans, securitizations, wildfire fund costs), rate-design choices and
+                            assistance programs, to outcomes like: residential bills through 2030, arrears
+                            and write-offs, FFO/debt and EPS.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Let execs test “what if this project slips?” or “what if we push another $X
+                            into wildfire capex?” and see immediate bill and earnings impacts.
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Large-Load Strategy & Tariff Design (Data Centers, Industrial Hubs)
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Analyze the 9–10 GW large-load pipeline scenario-by-scenario: probability of
+                            completion, location risk (grid constraints, wildfire, politics), community
+                            benefit potential.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Design tariffs and cost-allocation schemes so each incremental GW: covers its
+                            own infrastructure costs, helps reduce average residential/small-business
+                            bills, and can be transparently defended at CPUC and in the press.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Outcome: growth that clearly shows up as bill relief, not just higher system
+                            complexity.
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            O&M Savings Roadmap Tied to Actual Work
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Map Acme’s O&M savings commitment (already cutting hundreds of millions per
+                            year) onto concrete operational levers: vegetation cycles, field crew
+                            utilization, outage management & truck rolls, digital tools/automation.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Prioritize 5–10 initiatives with the best ratio of: savings, time-to-impact,
+                            implementation risk. Build tracking and benefit-realization discipline so the
+                            CFO can see those savings and regulators can see evidence of “doing our part.”
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Customer-Side Affordability & Arrears Management Strategy
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Use our company’s customer analytics and research expertise to segment: who is
+                            most behind on bills, who is most at risk of future arrears, which programs
+                            (REACH, Match My Payment, CARE, etc.) are under-utilized.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Redesign outreach, eligibility, and UX so existing assistance dollars (and the
+                            new $50M Acme committed for past-due support) go to the highest-risk,
+                            highest-impact households, reducing bad debt and social/political friction.
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="mt-6">
+                      <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight opacity-50">
+                        Lens Check for Hypothesis 2
+                      </p>
+                      <div className="space-y-3">
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Relevance — Very high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Direct hit on Acme’s stated narrative: big capex + load growth + O&M
+                              reductions + DOE financing = stable bills and rising earnings.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • In the center of the CFO, CEO, and regulatory VP job scopes.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Impact — Very high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • $73B capex and 10 GW of new demand is transformational. A few percent
+                              improvement in allocation or O&M performance translates into enormous value.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • A robust plan that actually bends the bill curve could soften opposition to
+                              future proceedings and protect ROE.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Urgency — High
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Near-term: 2026 earnings guidance, rate-change milestones in 2025–2027, and
+                              GRC proceedings already in motion.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Cost of delay: each year’s mix of capex, O&M, and load growth “locks in”
+                              through rate base and political expectations.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Meaningfulness — Very high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • This is literally the board and Wall Street story: can Acme grow and invest
+                              while stabilizing bills?
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Success is directly tied to CEO commitments and could define the careers of
+                              the CFO and key regulatory leaders.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Confidence — Medium-high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Strong external evidence: $73B plan, earnings guidance, DOE loan, rate
+                              stabilization messaging, big rate increase backlash, arrears data.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • our company has proven patterns in rate strategy, large-load analysis, and
+                              O&M benchmarking with other utilities.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Differentiation — High on integration
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Many advisors work on pieces of this (capex, rates, CX).
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • our company’s edge is in creating a joined-up affordability + growth model
+                              that includes customer insight, not just finance and engineering.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeInnerTab === 1 && (
+                  /* Value Hypothesis 1 - Wildfire Risk */
+                  <div className="space-y-6">
+                    <div className="space-y-1">
+                      <h3 className="text-[9px] font-bold text-white leading-tight">
+                        Value Hypothesis 1
+                      </h3>
+                      <p className="text-[9px] font-bold text-white leading-tight">
+                        “Acme can hit its wildfire risk targets with 10–20% less total capital by
+                        optimizing where and how it invests in undergrounding and mitigation.”
+                      </p>
+                      <div className="space-y-2">
+                        <p className="text-[9px] font-bold text-white leading-tight pt-1">
+                          Core idea (customer-facing):
+                        </p>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight">
+                          Acme is already committing billions to wildfire mitigation and undergrounding —
+                          with cost per mile now around $3.1M, down from $4M thanks to process
+                          improvements.
+                          <ReferencePill label="Q3 Investor Brief" />
+                        </p>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight">
+                          Given the sheer scale (700+ miles underground{' '}
+                          <ReferencePill label="WMP 2025" /> plus 500 miles other wildfire upgrades by
+                          2026, and more beyond), even modest improvements in portfolio targeting and
+                          execution could unlock hundreds of millions to low single-digit billions in
+                          avoided or redeployed spend while still meeting safety and regulatory
+                          expectations.
+                        </p>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
+                          our company’s hypothesis: with better risk–cost analytics, program design, and
+                          execution discipline, Acme can buy more risk reduction per dollar and strengthen
+                          its story with CPUC and legislators.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-[9px] font-bold text-white leading-tight pt-1">
+                        Subthemes / potential workstreams
+                      </p>
+                      <ul className="space-y-4">
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Risk–Cost Targeting Engine for Wildfire Investments
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Build a unified model that ranks circuits/segments by:
+                          </p>
+                          <ul className="pl-4 space-y-1">
+                            <li className="text-[9px] font-normal text-white/60 leading-tight">
+                              • ignition risk and potential fire consequences,
+                            </li>
+                            <li className="text-[9px] font-normal text-white/60 leading-tight">
+                              • cost per mile for undergrounding vs covered conductor vs targeted
+                              vegetation,
+                            </li>
+                            <li className="text-[9px] font-normal text-white/60 leading-tight">
+                              • customer / equity factors (DACs, PSPS fatigue, critical facilities),
+                            </li>
+                            <li className="text-[9px] font-normal text-white/60 leading-tight">
+                              • constructability and permitting friction.
+                            </li>
+                          </ul>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Use it to stress-test current plans and propose alternative portfolios:
+                            “Here’s a scenario with the same risk reduction but 12–15% less capital,” or
+                            “Here’s how to get 5% more risk reduction with the same budget.”
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Undergrounding Strategy & CPUC Narrative Design
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Co-develop a “why these miles?” framework that Acme can use in: Wildfire
+                            Mitigation Plans (WMP), undergrounding applications, GRC testimony.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Explicitly quantify: risk reduction per dollar, comparison vs cheaper
+                            mitigations, community benefits (fewer PSPS, equity outcomes). Goal: reduce
+                            the likelihood of capex being cut or heavily conditioned in CPUC decisions.
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Execution Efficiency & Cost Curve Acceleration
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Benchmark Acme’s per-mile undergrounding and vegetation costs against peer
+                            utilities. Identify where innovations (local contractors, construction
+                            methods, work bundling, trench standards) are working and where they’re not,
+                            to push below the current ~$3.1M/mile cost. Design field and contractor
+                            playbooks that translate into repeatable cost reductions.
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Outcome & Assurance Dashboard for Board and Regulators
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Create an executive dashboard that tracks: ignition metrics, miles
+                            undergrounded / hardened, spend vs plan, risk reduction achieved vs promised.
+                            Gives the board and CPUC tangible evidence that safety targets are being hit
+                            efficiently, not just expensively.
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="mt-6">
+                      <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight opacity-50">
+                        Lens Check for Hypothesis 1
+                      </p>
+                      <div className="space-y-3">
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Relevance — Very high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Directly maps to top priorities: wildfire mitigation and undergrounding,
+                              safety certificate, and CPUC scrutiny.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Clearly in scope for COO, Chief Safety Officer, regulatory leadership, and
+                              CFO.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Impact — Very high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Undergrounding/mitigation is a multi-billion dollar program. Shifting
+                              10–20% of spend via better targeting/efficiency could mean hundreds of
+                              millions to {'>'}$1B+ in capital avoided or better used, and a stronger case
+                              for maintaining ROE.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Urgency — Very high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Active WMP cycles, undergrounding plans and GRC are all on the 2026–2030
+                              time horizon; Acme is mid-stream, not planning in theory.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Each year of “good but not optimal” spend locks in billions into rate
+                              base.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Meaningfulness — Career-defining
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Success is directly visible to: Board (safety, spend discipline), CPUC,
+                              Governor/legislature.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Another catastrophic fire or perception of wasteful undergrounding would
+                              be career-ending for multiple execs; getting this right is the opposite.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Confidence — High
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Strong support from Acme’s own numbers on undergrounding scale and cost
+                              trajectory, and Wildfire Mitigation Plan detail.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • our company has deep experience in risk modeling, asset planning, and
+                              regulatory strategy at other IOUs (pattern fits).
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Differentiation — Moderate to high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Plenty of firms can “do modeling”; fewer combine: utility-specific
+                              risk/asset expertise, regulatory storytelling, and customer/community impact
+                              framing under one roof.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • our company’s positioning as a strategy + analytics + CX partner (not just
+                              an engineering consultant) is an advantage here.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeInnerTab === 2 && (
+                  /* Value Hypothesis 3 - Trust & Regulatory Permission */
+                  <div className="space-y-6">
+                    <div className="space-y-1">
+                      <h3 className="text-[9px] font-bold text-white leading-tight">
+                        Value Hypothesis 3
+                      </h3>
+                      <p className="text-[9px] font-bold text-white leading-tight">
+                        “Acme can rebuild trust and regulatory permission by radically improving the
+                        experience of its hardest-hit customers (PSPS/EPSS, high bills, arrears) over the
+                        next 24–36 months.”
+                      </p>
+                      <div className="space-y-2">
+                        <p className="text-[9px] font-bold text-white leading-tight pt-1">
+                          Core idea (customer-facing):
+                        </p>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight">
+                          Acme has: some of the highest bills in the U.S., 1 in 5 customers behind on
+                          payments <ReferencePill label="Arrears Analysis" /> owing roughly $700 on average{' '}
+                          <ReferencePill label="Customer Impact Study" />, and a long history of
+                          PSPS/wildfire-related outages and media scrutiny.
+                        </p>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight">
+                          Even with slight bill decreases in late 2025 and forecast stability in 2026,
+                          customers still feel the pain and distrust from years of spikes and outages.
+                        </p>
+                        <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
+                          our company’s hypothesis: if Acme dramatically improves the lived experience of
+                          the customers who are most impacted by PSPS, wildfires, and bill pressure, it
+                          can: reduce complaints and political heat, strengthen its narrative in rate
+                          cases, and actually increase adoption of programs that lower system cost (EE,
+                          DR, assistance, DERs).
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-[9px] font-bold text-white leading-tight pt-1">
+                        Subthemes / potential workstreams
+                      </p>
+                      <ul className="space-y-4">
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            “Who Hurts Most?” – Deep Customer Pain Mapping
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Use data and research to identify: PSPS-exposed rural/foothill communities,
+                            urban/suburban “rate-shock” customers, small business segments at risk of
+                            closure, and map each group’s: outage history, bill trajectory, arrears
+                            status, program participation.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Build personas and pain maps that execs and regulators can immediately
+                            understand.
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            PSPS / Wildfire Experience Redesign
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Redesign the end-to-end PSPS/EPSS experience: notification cadence and
+                            clarity, proactive offers (battery programs, resilience plans, community
+                            resources), after-event follow-up with targeted support.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Measure impact on: complaint rates, assistance uptake, trust/satisfaction in
+                            PSPS areas.
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Bill, Assistance & Energy Management UX Overhaul
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Simplify how customers: understand their bill (what’s driving cost), see
+                            future bill trajectory, discover and enroll in help (REACH, Match My Payment,
+                            CARE, LIHEAP, etc.).
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Use A/B testing to maximize: arrears reduction, program participation, digital
+                            self-service.
+                          </p>
+                        </li>
+                        <li className="space-y-1">
+                          <p className="text-[9px] font-bold text-white/90 leading-tight">
+                            Evidence Pack for CPUC & Legislators
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Turn the above into a quantitative and qualitative evidence pack: PSPS-area
+                            complaint reductions, arrears stabilization or decline, program uptake in
+                            disadvantaged communities, to support: undergrounding/mitigation approvals,
+                            rate cases, ROE discussions.
+                          </p>
+                          <p className="text-[9px] font-normal text-white/60 leading-tight">
+                            Helps Acme argue: “We’re not just investing in assets; we’re measurably
+                            improving our customers’ experience and protecting vulnerable groups.”
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="mt-6">
+                      <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight opacity-50">
+                        Lens Check for Hypothesis 3
+                      </p>
+                      <div className="space-y-3">
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Relevance — High
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Directly aligned with affordability, wildfire/PSPS, and public trust
+                              concerns that are front-page news and a constant theme in legislative and
+                              CPUC discourse.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • In the job scope of Chief Customer Officer, regulatory team, and indirectly
+                              CEO.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Impact — Medium-high (with leverage)
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • CX doesn’t change billions of capex directly, but: fewer complaints &
+                              better satisfaction → more regulatory goodwill, fewer penalties, better
+                              targeting of assistance → less bad debt, better political optics, higher
+                              program participation → lower system costs over time.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Also raises odds that big plans (Hypotheses 1 & 2) get approved and
+                              accepted.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Urgency — High
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Customers are currently in arrears and angry, not theoretically unhappy.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Acme is actively rolling out credits and assistance; the next 1–2 years
+                              are critical to shift narrative from “worst in class” to “improving.”
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Meaningfulness — High
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Politically salient; will show up in: headlines, CPUC public comment,
+                              local government reactions to projects.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • For a Chief Customer Officer or exec sponsor, success here would be
+                              career-making because it flips a long-term negative story.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Confidence — Medium-high
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Plenty of utility benchmarks show CX improvements driving regulatory and
+                              program outcomes; Acme’s own public numbers on arrears, assistance and
+                              credits validate the pain and the levers.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-white leading-tight">
+                            Differentiation — High
+                          </p>
+                          <div className="pl-1 space-y-1">
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • Many firms offer CX projects; far fewer combine: CX research, utility
+                              program design, behavioral science, and deep regulatory context.
+                            </p>
+                            <p className="text-[9px] text-white/50 leading-tight">
+                              • our company’s existing footprint in utility customer strategy gives you
+                              credibility and speed that generic CX agencies won’t have.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* How to Use These Hypotheses */}
+                <div className="mt-8 space-y-4">
+                  <h3 className="text-[9px] font-bold text-white opacity-60">
+                    How to Use These Hypotheses
+                  </h3>
+                  <div className="space-y-3">
+                    <p className="text-[9px] font-normal text-white/70 leading-tight">
+                      For internal our company execs, these are essentially three big bets:
+                    </p>
+                    <ul className="space-y-1 pl-1">
+                      <li className="text-[9px] font-bold text-white/90 leading-tight">
+                        • Safety at least cost
+                      </li>
+                      <li className="text-[9px] font-bold text-white/90 leading-tight">
+                        • Growth-powered affordability and earnings
+                      </li>
+                      <li className="text-[9px] font-bold text-white/90 leading-tight">
+                        • Trust and permission to operate
+                      </li>
+                    </ul>
+                    <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
+                      Each comes with clear subthemes and workstreams you can shape into:
+                    </p>
+                    <ul className="space-y-1 pl-1">
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • discovery questions,
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • joint working sessions,
+                      </li>
+                      <li className="text-[9px] font-normal text-white/70 leading-tight">
+                        • and co-authored POVs or roadmaps with Acme.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Business Case Content */}
+            {activeMainTab === 2 && (
+              <Image src='/business-case.png' width={1000} height={1000} className ="w-full h-auto" alt="Business Case" />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ProductShowcase: React.FC = () => {
   const [activeMainTab, setActiveMainTab] = useState(0);
   const [activeInnerTab, setActiveInnerTab] = useState(2); // Default to "Challenges" as in image
   const [activeSidebarTab, setActiveSidebarTab] = useState(0);
-
-  const ReferencePill: React.FC<{ label: string }> = ({ label }) => (
-    <motion.span
-      whileHover={{
-        scale: 1.1,
-        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-        color: 'rgba(255, 255, 255, 0.8)',
-        borderColor: 'rgba(255, 255, 255, 0.3)'
-      }}
-      whileTap={{ scale: 0.95 }}
-      className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[7.5px] font-medium text-white/40 ml-1 cursor-pointer transition-colors"
-    >
-      {label}
-    </motion.span>
-  );
 
   const mainTabs = [
     { id: 0, label: 'Situational Analysis' },
@@ -165,8 +1259,8 @@ const ProductShowcase: React.FC = () => {
                   whileHover={{ scale: 1.02, x: 10 }}
                   whileTap={{ scale: 0.98 }}
                   className={`flex flex-col justify-center gap-3 px-3 sm:px-4 md:px-6 lg:px-10 h-[120px] lg:flex-shrink-0 lg:min-w-[200px] rounded-[20px] transition-all duration-300 text-left ${isActive
-                    ? 'bg-[#3A4943] shadow-xl border border-white/20'
-                    : 'bg-[#3A494366] border-[0.5px] border-[#80E0CC] hover:border-white/40'
+                    ? 'bg-[#3A4943] shadow-xl border border-white/20 xl:w-auto w-[140px] flex-shrink-0'
+                    : 'bg-[#3A494366] border-[0.5px] border-[#80E0CC] hover:border-white/40 xl:w-auto w-[120px] flex-shrink-0'
                     }`}
                 >
                   <div className="text-white">
@@ -219,7 +1313,7 @@ const ProductShowcase: React.FC = () => {
             {/* Nested Component View */}
             <div className="bg-[#131314] lg:rounded-[32px] px-4 lg:px-8 pt-4 lg:pt-8 flex flex-col lg:flex-row gap-8 items-stretch min-h-[600px]">
               {/* Inner Sidebar Tabs */}
-              <div className="hidden lg:flex flex-col gap-4 w-[240px]">
+              {/* <div className="hidden lg:flex flex-col gap-4 w-[240px]">
                 {sidebarTabs.map((tab) => {
                   const isActive = activeSidebarTab === tab.id;
                   return (
@@ -249,739 +1343,10 @@ const ProductShowcase: React.FC = () => {
                     </motion.button>
                   );
                 })}
-              </div>
+              </div> */}
 
-              {/* Document Content Display */}
-              <div className="flex-1 flex flex-col gap-4">
-                {/* Inner Document Tabs */}
-                <div className="flex items-center justify-start">
-                  {innerTabs.map((tab, idx) => (
-                    <React.Fragment key={tab}>
-                      <motion.button
-                        onClick={() => setActiveInnerTab(idx)}
-                        whileHover={{ scale: 1.05, y: -2, backgroundColor: activeInnerTab === idx ? '#4A4D50' : '#323639' }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`px-4 md:px-6 py-2 rounded-full text-[8px] transition-all cursor-pointer ${activeInnerTab === idx
-                          ? 'bg-[#3A3D40] text-white font-bold'
-                          : 'bg-[#2A2D30] text-white/90 hover:bg-[#323639]'
-                          }`}
-                      >
-                        {tab}
-                      </motion.button>
-                      {idx < innerTabs.length - 1 && (
-                        <div className="mx-1 md:mx-4 w-[1px] h-4 bg-white/10" />
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-
-                {/* Document Card */}
-                <div className="bg-[#151719] rounded-t-[24px] overflow-hidden flex flex-col h-[600px] lg:h-[800px]">
-                  {/* Header */}
-                  <div className="border-b border-white/5 flex items-stretch h-14">
-                    {/* Logo Section */}
-                    <div className="px-2 lg:px-6 flex items-center justify-center border-r border-white/5">
-                      <svg className='w-6 md:w-8' width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M2.09289 2.96308C3.17109 2.96308 4.04222 3.83885 4.04222 4.90685C4.04222 5.98197 3.17109 6.85061 2.09289 6.85061C1.01469 6.85061 0.143555 5.98197 0.143555 4.90685C0.143555 3.83885 1.01469 2.96308 2.09289 2.96308ZM19.0371 2.4718C19.844 2.4718 20.5009 3.12684 20.5009 3.93141C20.5009 4.73597 19.844 5.38389 19.0371 5.38389C18.2302 5.38389 17.5733 4.73597 17.5733 3.93141C17.5733 3.12684 18.2302 2.4718 19.0371 2.4718ZM20.8793 7.60534C21.6862 7.60534 22.3431 8.26038 22.3431 9.06494C22.3431 9.8695 21.6862 10.5245 20.8793 10.5245C20.0725 10.5245 19.4155 9.8695 19.4155 9.06494C19.4155 8.26038 20.0725 7.60534 20.8793 7.60534ZM18.6801 11.9272C19.4941 11.9272 20.1439 12.5822 20.1439 13.3868C20.1439 14.1914 19.4941 14.8464 18.6801 14.8464C17.8732 14.8464 17.2234 14.1914 17.2234 13.3868C17.2234 12.5822 17.8732 11.9272 18.6801 11.9272ZM12.0466 15.8574C12.8535 15.8574 13.5104 16.5125 13.5104 17.317C13.5104 18.1216 12.8535 18.7766 12.0466 18.7766C11.2398 18.7766 10.5828 18.1216 10.5828 17.317C10.5828 16.5125 11.2398 15.8574 12.0466 15.8574ZM7.69097 16.9966C8.49784 16.9966 9.15476 17.6517 9.15476 18.4562C9.15476 19.2608 8.49784 19.9159 7.69097 19.9159C6.88411 19.9159 6.22719 19.2608 6.22719 18.4562C6.22719 17.6517 6.88411 16.9966 7.69097 16.9966ZM2.61414 11.9628C3.6852 11.9628 4.56347 12.8314 4.56347 13.9066C4.56347 14.9817 3.6852 15.8503 2.61414 15.8503C1.53594 15.8503 0.664805 14.9817 0.664805 13.9066C0.664805 12.8314 1.53594 11.9628 2.61414 11.9628ZM11.0113 4.28029C13.4319 4.28029 15.3955 6.23829 15.3955 8.65198C15.3955 11.0657 13.4319 13.0237 11.0113 13.0237C8.59066 13.0237 6.62705 11.0657 6.62705 8.65198C6.62705 6.23829 8.59066 4.28029 11.0113 4.28029ZM7.06976 0.143555C7.87662 0.143555 8.53354 0.798597 8.53354 1.60316C8.53354 2.40772 7.87662 3.05564 7.06976 3.05564C6.26289 3.05564 5.60597 2.40772 5.60597 1.60316C5.60597 0.798597 6.26289 0.143555 7.06976 0.143555Z" fill="#71D5CB" />
-                        <path fillRule="evenodd" clipRule="evenodd" d="M20.7935 8.72372L19.3583 4.90739L19.444 4.87891L20.8792 8.70236L20.7935 8.72372ZM2.18562 4.89315L6.86974 1.68202L6.91972 1.7461L2.23561 4.95723L2.18562 4.89315ZM7.5695 2.09498L9.22607 4.67955L9.19037 4.70803L7.53379 2.11634L7.5695 2.09498ZM2.8354 14.2133L11.0897 8.55996L11.1683 8.67388L2.91395 14.3272L2.8354 14.2133ZM3.1353 15.1816L6.83403 18.3571L6.78405 18.4069L3.09246 15.2314L3.1353 15.1816ZM8.32638 18.0723L11.3182 17.6522L11.3254 17.7163L8.32638 18.1364V18.0723ZM13.289 9.67068L18.8514 13.188L18.7585 13.309L13.1961 9.79173L13.289 9.67068ZM19.1584 12.5685L20.815 10.0409L20.865 10.0836L19.2084 12.6113L19.1584 12.5685Z" fill="#71D5CB" fillOpacity="0.6" />
-                      </svg>
-                    </div>
-
-                    {/* GenSP Section */}
-                    <div className="flex-1 flex items-center px-4 lg:px-6 border-r border-white/5">
-                      <span className="text-white font-bold text-[10px] lg:text-[13px] tracking-tight">GenSP</span>
-                    </div>
-
-                    {/* Helpful Section */}
-                    <div className="flex items-center px-2 md:px-6 gap-6">
-                      <span className="flex-shrink-0 text-[7px] md:text-[9px] text-[#71D5CB] uppercase font-medium">Was this helpful</span>
-                      <div className="flex gap-4">
-                        <motion.div whileHover={{ scale: 1.2, rotate: -10 }} whileTap={{ scale: 0.9 }}>
-                          <ThumbsUp className="w-2 h-2 md:w-3.5 md:h-3.5 text-white/40 cursor-pointer hover:text-white transition-colors" />
-                        </motion.div>
-                        <motion.div whileHover={{ scale: 1.2, rotate: 10 }} whileTap={{ scale: 0.9 }}>
-                          <ThumbsDown className="w-2 h-2 md:w-3.5 md:h-3.5 text-white/40 cursor-pointer hover:text-white transition-colors" />
-                        </motion.div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Scrollable Document Content */}
-                  <div className="flex-1 overflow-y-auto px-4 lg:px-8 py-4 custom-scrollbar">
-                    <div className="max-w-2xl mx-auto space-y-8">
-                      {/* Situational Analysis Content */}
-                      {activeMainTab === 0 && (
-                        <>
-                          {/* Section 1: Wildfire Risk */}
-                          <div className="space-y-1">
-                            <h3 className="text-[9px] font-bold text-white leading-tight">
-                              1. Wildfire risk: the existential problem that's insanely expensive to solve
-                            </h3>
-                            <div className="space-y-2">
-                              <p className="text-[9px] font-bold text-white/90 leading-tight">What they're doing</p>
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Acme has now undergrounded 1,000 miles of lines in high fire-risk areas, removing 8.4% of system-wide ignition risk since 2023 and targeting 1,600 miles undergrounded and ~18% risk reduction by the end of 2026. <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">Acme Corporation</span></li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• The cost per mile of undergrounding has fallen from $4M to $3.1M in 2025 as they scale the program. <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">Acme Corporation</span></li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Their wildfire plan says operational programs (vegetation management, inspections, system hardening) can achieve about a 40% risk reduction in high fire-risk zones over 1–2 years. <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">CancerHub</span></li>
-                              </ul>
-                              <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">Why this is still a massive challenges</p>
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Even at the improved $3.1M/mile, those 1,000 miles already represent roughly $3.1B of capital. A full 10,000-mile undergrounding vision is tens of billions in today's dollars.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Wildfire safety is largely funded through customer bills and wildfire fund contributions, plus some securitized debt. The Q3 2025 earnings materials show "unrecoverable net interest" associated with wildfire fund financing and other debt that isn't fully in rates. <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">Q3 CapitolX</span></li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Their own wildfire mitigation update is explicit that even after big risk reductions, there's residual tail risk; and earnings guidance can't cleanly forecast wildfire-related costs because they depend on weather, legal outcomes, and policy.</li>
-                              </ul>
-                              <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">What it costs them if they don't solve it</p>
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Another catastrophic fire could easily be a tens-of-billions-of-dollars event (based on past fire settlements and bankruptcy history), triggering rating downgrades, political blowback, and equity dilution.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Failing to keep ignition metrics moving down threatens their "safety certificate" and cost recovery. <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">Q3 CapitolX</span></li>
-                              </ul>
-                              <p className="text-[9px] font-normal text-white/50 italic leading-tight pt-1">
-                                So wildfire risk is not just a line item—it's existential risk on the balance sheet and license to operate, with a cost base in the tens of billions.
-                              </p>
-                            </div>
-                          </div>
-
-
-                          {/* Section 2: Affordability */}
-                          <div className="space-y-1">
-                            <h3 className="text-[9px] font-bold text-white leading-tight">
-                              2. Affordability vs capital intensity: caught between angry customers and a $73B capex plan
-                            </h3>
-                            <div className="space-y-2">
-                              <p className="text-[9px] font-bold text-white/90 leading-tight">Where bills are today</p>
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Acme rates have risen ~101% from 2015 to 2025. <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">NBC Bay Area</span></li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• 2024 alone added about $440/year to the average residential bill.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• In 2025, average monthly bills are around $294, and about 1 in 5 customers is behind on payments. <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[8px] text-white/40 ml-1">SF Chronicle</span></li>
-                              </ul>
-                              <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">Their plan to stabilize bills</p>
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Acme's 2027–2030 General Rate Case proposal implies a 3.6% bill increase in 2027, but expiring charges mean total bills are expected to be flat.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• DOE's $15B federal loan guarantee (Project Polaris) is framed to save customers up to $1B.</li>
-                              </ul>
-                              <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">The challenge</p>
-                              <p className="text-[9px] font-normal text-white/60 leading-tight">
-                                At the same time, Acme has a $73B 2026–2030 capital plan. Any slip—capex overruns, wildfire surprises, O&M savings not materializing—shows up either as higher bills or weakened credit.
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Section 3: Data Centers & Grid Build */}
-                          <div className="space-y-1">
-                            <h3 className="text-[9px] font-bold text-white leading-tight">
-                              3. Executing a $73B grid build for AI/data centers & electrification without tripping over themselves
-                            </h3>
-                            <div className="space-y-2">
-                              <p className="text-[9px] font-bold text-white/90 leading-tight">The plan</p>
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Acme expects about 10 GW of new demand over the next decade, largely from data centers.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• As of late 2025, they report 9.6 GW of data-center projects in their interconnection queue.</li>
-                              </ul>
-                              <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">Execution challenges</p>
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Pipeline volatility: The pipeline has already shrunk from earlier quarters (~10 GW down to 9.6 GW).</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Permitting & interconnection timing: Large data centers need new substations and transmission upgrades.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Management has committed to avoiding ramped capex beyond what credit metrics can support.</li>
-                              </ul>
-                              <p className="text-[9px] font-normal text-white/50 italic leading-tight pt-1">
-                                Delay or cancellation reduces the incremental revenue counted on to spread fixed costs and lower average bills.
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Section 4: Regulatory */}
-                          <div className="space-y-1">
-                            <h3 className="text-[9px] font-bold text-white leading-tight">
-                              4. Regulatory and policy uncertainty: CPUC, wildfire law, and cost of capital
-                            </h3>
-                            <div className="space-y-2">
-                              <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                The Q3 2025 earnings deck maps out a dense calendar: cost of capital decisions, wildfire fund reviews, and safety certificate renewals through 2026.
-                              </p>
-                              <p className="text-[9px] font-bold text-white/90 leading-tight pt-1">Key friction points</p>
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Acme has asked to raise Authorized ROE from 10.3% to 11.3%, adding ~$5.50/month to bills.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• SB 254 obligations remain a massive $18B liability for the Wildfire Fund.</li>
-                              </ul>
-                            </div>
-                          </div>
-
-                          {/* Section 5: O&M Efficiency */}
-                          <div className="space-y-1">
-                            <h3 className="text-[9px] font-bold text-white leading-tight">
-                              5. Sustained O&M efficiency and organizational change
-                            </h3>
-                            <div className="space-y-2">
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• 2023 reduction: 5.5%</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• 2024 reduction: 4%</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Ongoing target: 2-3%</li>
-                              </ul>
-                              <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
-                                The easy wins are already baked in. Deeper savings now require re-engineering work management and reskilling a unionized workforce.
-                              </p>
-                              <p className="text-[9px] text-white/90 font-normal italic leading-tight">
-                                Under-delivery here undermines their entire narrative of a simple, affordable model.
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Section 6: Customer Trust */}
-                          <div className="space-y-1">
-                            <h3 className="text-[9px] font-bold text-white leading-tight">
-                              6. Customer trust and social licence: lowest satisfaction in the sector
-                            </h3>
-                            <div className="space-y-2">
-                              <p className="text-[9px] font-normal text-white/70 leading-tight inline">• ACSI 2025 satisfaction score: 66 (down 8% from 72)</p>
-                              <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
-                                Last among all major U.S. utilities. This directly constrains their leverage for rate increases and big infrastructure programs.
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Section 7: Digital & AI */}
-                          <div className="space-y-1">
-                            <h3 className="text-[9px] font-bold text-white leading-tight">
-                              7. Digital, AI, and data: high expectations, messy reality
-                            </h3>
-                            <div className="space-y-2">
-                              <ul className="space-y-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Layering AI on top of decades of legacy systems and siloed operational datasets.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Stalling at "cool pilot, no scale" across 28k employees.</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• Expanded attack surface as they open the grid to virtual power plants.</li>
-                              </ul>
-                            </div>
-                          </div>
-
-                          {/* Section 8: Gas Business */}
-                          <div className="space-y-1">
-                            <h3 className="text-[9px] font-bold text-white leading-tight">
-                              8. Gas business and the risk of stranded assets
-                            </h3>
-                            <div className="space-y-2">
-                              <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                As gas consumption falls, fixed costs don't. Remaining customers could see charges rise sharply.
-                              </p>
-                              <p className="text-[9px] font-normal text-white/60 leading-tight pt-1">
-                                If regulators decide gas assets are no longer "used and useful," portions of the rate base could be written down.
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Summary Conclusion */}
-                          <div className="mt-6">
-                            <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight">Executive tensions view</p>
-                            <div className="space-y-4">
-                              <div className="space-y-1">
-                                <p className="text-[9px] font-bold text-white/90 leading-tight">Safety vs affordability</p>
-                                <p className="text-[9px] text-white/50 leading-tight">Undergrounding is a $5B+ need, but 1 in 5 can't keep up with bills.</p>
-                              </div>
-                              <div className="space-y-1">
-                                <p className="text-[9px] font-bold text-white/90 leading-tight">Growth vs execution risk</p>
-                                <p className="text-[9px] text-white/50 leading-tight">Data centers can lower bills but the pipeline is highly fluid.</p>
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )}
-
-                      {/* Value Hypothesis Content */}
-                      {activeMainTab === 1 && (
-                        <div className="space-y-8">
-                          {activeInnerTab === 0 && ( /* Value Hypothesis 2 - Grid & Load Growth */
-                            <div className="space-y-6">
-                              <div className="space-y-1">
-                                <h3 className="text-[9px] font-bold text-white leading-tight">
-                                  Value Hypothesis 2
-                                </h3>
-                                <p className="text-[9px] font-bold text-white leading-tight">
-                                  “Acme can turn its $73B grid & load-growth plan into a net affordability and earnings engine — if it gets the bill math, large-load strategy, and O&M execution right.”
-                                </p>
-                                <div className="space-y-2">
-                                  <p className="text-[9px] font-bold text-white leading-tight pt-1">Core idea (customer-facing):</p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                    Acme wants to invest $73B through 2030 to handle ~10 GW of new data-center and electrification load, while promising flat or modestly increasing bills after massive 2024 hikes.
-                                    <ReferencePill label="CPUC Case" />
-                                  </p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                    To make that math work, three things must hold simultaneously:
-                                  </p>
-                                  <ul className="space-y-1 pl-1">
-                                    <li className="text-[9px] font-normal text-white/70 leading-tight">• Large loads show up (and stay) where planned,</li>
-                                    <li className="text-[9px] font-normal text-white/70 leading-tight">• O&M keeps falling 2–3% annually, and</li>
-                                    <li className="text-[9px] font-normal text-white/70 leading-tight">• Financing benefits (like DOE’s $15B low-cost loan <ReferencePill label="LPO Program" /> and wildfire fund reforms) actually flow through to customers</li>
-                                  </ul>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
-                                    our company’s hypothesis: by building a coherent affordability & growth playbook, Acme can use growth and efficiency to relieve bill pressure and hit its earnings/credit targets, rather than letting these forces work against each other.
-                                  </p>
-                                </div>
-                              </div>
-
-                              <div className="space-y-2">
-                                <p className="text-[9px] font-bold text-white leading-tight pt-1">Subthemes / potential workstreams</p>
-                                <ul className="space-y-4">
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Affordability “Flight Simulator” for the C-Suite</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Create a single, trusted model that connects: grid capex by category, data-center / large load pipeline scenarios, O&M reduction paths, financing (DOE loans, securitizations, wildfire fund costs), rate-design choices and assistance programs, to outcomes like: residential bills through 2030, arrears and write-offs, FFO/debt and EPS.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Let execs test “what if this project slips?” or “what if we push another $X into wildfire capex?” and see immediate bill and earnings impacts.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Large-Load Strategy & Tariff Design (Data Centers, Industrial Hubs)</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Analyze the 9–10 GW large-load pipeline scenario-by-scenario: probability of completion, location risk (grid constraints, wildfire, politics), community benefit potential.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Design tariffs and cost-allocation schemes so each incremental GW: covers its own infrastructure costs, helps reduce average residential/small-business bills, and can be transparently defended at CPUC and in the press.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Outcome: growth that clearly shows up as bill relief, not just higher system complexity.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">O&M Savings Roadmap Tied to Actual Work</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Map Acme’s O&M savings commitment (already cutting hundreds of millions per year) onto concrete operational levers: vegetation cycles, field crew utilization, outage management & truck rolls, digital tools/automation.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Prioritize 5–10 initiatives with the best ratio of: savings, time-to-impact, implementation risk. Build tracking and benefit-realization discipline so the CFO can see those savings and regulators can see evidence of “doing our part.”</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Customer-Side Affordability & Arrears Management Strategy</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Use our company’s customer analytics and research expertise to segment: who is most behind on bills, who is most at risk of future arrears, which programs (REACH, Match My Payment, CARE, etc.) are under-utilized.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Redesign outreach, eligibility, and UX so existing assistance dollars (and the new $50M Acme committed for past-due support) go to the highest-risk, highest-impact households, reducing bad debt and social/political friction.</p>
-                                  </li>
-                                </ul>
-                              </div>
-
-                              <div className="mt-6">
-                                <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight opacity-50">Lens Check for Hypothesis 2</p>
-                                <div className="space-y-3">
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Relevance — Very high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Direct hit on Acme’s stated narrative: big capex + load growth + O&M reductions + DOE financing = stable bills and rising earnings.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• In the center of the CFO, CEO, and regulatory VP job scopes.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Impact — Very high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• $73B capex and 10 GW of new demand is transformational. A few percent improvement in allocation or O&M performance translates into enormous value.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• A robust plan that actually bends the bill curve could soften opposition to future proceedings and protect ROE.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Urgency — High</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Near-term: 2026 earnings guidance, rate-change milestones in 2025–2027, and GRC proceedings already in motion.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• Cost of delay: each year’s mix of capex, O&M, and load growth “locks in” through rate base and political expectations.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Meaningfulness — Very high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• This is literally the board and Wall Street story: can Acme grow and invest while stabilizing bills?</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• Success is directly tied to CEO commitments and could define the careers of the CFO and key regulatory leaders.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Confidence — Medium-high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Strong external evidence: $73B plan, earnings guidance, DOE loan, rate stabilization messaging, big rate increase backlash, arrears data.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• our company has proven patterns in rate strategy, large-load analysis, and O&M benchmarking with other utilities.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Differentiation — High on integration</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Many advisors work on pieces of this (capex, rates, CX).</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• our company’s edge is in creating a joined-up affordability + growth model that includes customer insight, not just finance and engineering.</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          {activeInnerTab === 1 && ( /* Value Hypothesis 1 - Wildfire Risk */
-                            <div className="space-y-6">
-                              <div className="space-y-1">
-                                <h3 className="text-[9px] font-bold text-white leading-tight">
-                                  Value Hypothesis 1
-                                </h3>
-                                <p className="text-[9px] font-bold text-white leading-tight">
-                                  “Acme can hit its wildfire risk targets with 10–20% less total capital by optimizing where and how it invests in undergrounding and mitigation.”
-                                </p>
-                                <div className="space-y-2">
-                                  <p className="text-[9px] font-bold text-white leading-tight pt-1">Core idea (customer-facing):</p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                    Acme is already committing billions to wildfire mitigation and undergrounding — with cost per mile now around $3.1M, down from $4M thanks to process improvements.
-                                    <ReferencePill label="Q3 Investor Brief" />
-                                  </p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                    Given the sheer scale (700+ miles underground <ReferencePill label="WMP 2025" /> plus 500 miles other wildfire upgrades by 2026, and more beyond), even modest improvements in portfolio targeting and execution could unlock hundreds of millions to low single-digit billions in avoided or redeployed spend while still meeting safety and regulatory expectations.
-                                  </p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
-                                    our company’s hypothesis: with better risk–cost analytics, program design, and execution discipline, Acme can buy more risk reduction per dollar and strengthen its story with CPUC and legislators.
-                                  </p>
-                                </div>
-                              </div>
-
-                              <div className="space-y-2">
-                                <p className="text-[9px] font-bold text-white leading-tight pt-1">Subthemes / potential workstreams</p>
-                                <ul className="space-y-4">
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Risk–Cost Targeting Engine for Wildfire Investments</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Build a unified model that ranks circuits/segments by:</p>
-                                    <ul className="pl-4 space-y-1">
-                                      <li className="text-[9px] font-normal text-white/60 leading-tight">• ignition risk and potential fire consequences,</li>
-                                      <li className="text-[9px] font-normal text-white/60 leading-tight">• cost per mile for undergrounding vs covered conductor vs targeted vegetation,</li>
-                                      <li className="text-[9px] font-normal text-white/60 leading-tight">• customer / equity factors (DACs, PSPS fatigue, critical facilities),</li>
-                                      <li className="text-[9px] font-normal text-white/60 leading-tight">• constructability and permitting friction.</li>
-                                    </ul>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Use it to stress-test current plans and propose alternative portfolios: “Here’s a scenario with the same risk reduction but 12–15% less capital,” or “Here’s how to get 5% more risk reduction with the same budget.”</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Undergrounding Strategy & CPUC Narrative Design</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Co-develop a “why these miles?” framework that Acme can use in: Wildfire Mitigation Plans (WMP), undergrounding applications, GRC testimony.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Explicitly quantify: risk reduction per dollar, comparison vs cheaper mitigations, community benefits (fewer PSPS, equity outcomes). Goal: reduce the likelihood of capex being cut or heavily conditioned in CPUC decisions.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Execution Efficiency & Cost Curve Acceleration</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Benchmark Acme’s per-mile undergrounding and vegetation costs against peer utilities. Identify where innovations (local contractors, construction methods, work bundling, trench standards) are working and where they’re not, to push below the current ~$3.1M/mile cost. Design field and contractor playbooks that translate into repeatable cost reductions.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Outcome & Assurance Dashboard for Board and Regulators</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Create an executive dashboard that tracks: ignition metrics, miles undergrounded / hardened, spend vs plan, risk reduction achieved vs promised. Gives the board and CPUC tangible evidence that safety targets are being hit efficiently, not just expensively.</p>
-                                  </li>
-                                </ul>
-                              </div>
-
-                              <div className="mt-6">
-                                <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight opacity-50">Lens Check for Hypothesis 1</p>
-                                <div className="space-y-3">
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Relevance — Very high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Directly maps to top priorities: wildfire mitigation and undergrounding, safety certificate, and CPUC scrutiny.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• Clearly in scope for COO, Chief Safety Officer, regulatory leadership, and CFO.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Impact — Very high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Undergrounding/mitigation is a multi-billion dollar program. Shifting 10–20% of spend via better targeting/efficiency could mean hundreds of millions to {'>'}$1B+ in capital avoided or better used, and a stronger case for maintaining ROE.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Urgency — Very high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Active WMP cycles, undergrounding plans and GRC are all on the 2026–2030 time horizon; Acme is mid-stream, not planning in theory.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• Each year of “good but not optimal” spend locks in billions into rate base.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Meaningfulness — Career-defining</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Success is directly visible to: Board (safety, spend discipline), CPUC, Governor/legislature.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• Another catastrophic fire or perception of wasteful undergrounding would be career-ending for multiple execs; getting this right is the opposite.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Confidence — High</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Strong support from Acme’s own numbers on undergrounding scale and cost trajectory, and Wildfire Mitigation Plan detail.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• our company has deep experience in risk modeling, asset planning, and regulatory strategy at other IOUs (pattern fits).</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Differentiation — Moderate to high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Plenty of firms can “do modeling”; fewer combine: utility-specific risk/asset expertise, regulatory storytelling, and customer/community impact framing under one roof.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• our company’s positioning as a strategy + analytics + CX partner (not just an engineering consultant) is an advantage here.</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          {activeInnerTab === 2 && ( /* Value Hypothesis 3 - Trust & Regulatory Permission */
-                            <div className="space-y-6">
-                              <div className="space-y-1">
-                                <h3 className="text-[9px] font-bold text-white leading-tight">
-                                  Value Hypothesis 3
-                                </h3>
-                                <p className="text-[9px] font-bold text-white leading-tight">
-                                  “Acme can rebuild trust and regulatory permission by radically improving the experience of its hardest-hit customers (PSPS/EPSS, high bills, arrears) over the next 24–36 months.”
-                                </p>
-                                <div className="space-y-2">
-                                  <p className="text-[9px] font-bold text-white leading-tight pt-1">Core idea (customer-facing):</p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                    Acme has: some of the highest bills in the U.S., 1 in 5 customers behind on payments <ReferencePill label="Arrears Analysis" /> owing roughly $700 on average <ReferencePill label="Customer Impact Study" />, and a long history of PSPS/wildfire-related outages and media scrutiny.
-                                  </p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                    Even with slight bill decreases in late 2025 and forecast stability in 2026, customers still feel the pain and distrust from years of spikes and outages.
-                                  </p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
-                                    our company’s hypothesis: if Acme dramatically improves the lived experience of the customers who are most impacted by PSPS, wildfires, and bill pressure, it can: reduce complaints and political heat, strengthen its narrative in rate cases, and actually increase adoption of programs that lower system cost (EE, DR, assistance, DERs).
-                                  </p>
-                                </div>
-                              </div>
-
-                              <div className="space-y-2">
-                                <p className="text-[9px] font-bold text-white leading-tight pt-1">Subthemes / potential workstreams</p>
-                                <ul className="space-y-4">
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">“Who Hurts Most?” – Deep Customer Pain Mapping</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Use data and research to identify: PSPS-exposed rural/foothill communities, urban/suburban “rate-shock” customers, small business segments at risk of closure, and map each group’s: outage history, bill trajectory, arrears status, program participation.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Build personas and pain maps that execs and regulators can immediately understand.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">PSPS / Wildfire Experience Redesign</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Redesign the end-to-end PSPS/EPSS experience: notification cadence and clarity, proactive offers (battery programs, resilience plans, community resources), after-event follow-up with targeted support.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Measure impact on: complaint rates, assistance uptake, trust/satisfaction in PSPS areas.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Bill, Assistance & Energy Management UX Overhaul</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Simplify how customers: understand their bill (what’s driving cost), see future bill trajectory, discover and enroll in help (REACH, Match My Payment, CARE, LIHEAP, etc.).</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Use A/B testing to maximize: arrears reduction, program participation, digital self-service.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Evidence Pack for CPUC & Legislators</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Turn the above into a quantitative and qualitative evidence pack: PSPS-area complaint reductions, arrears stabilization or decline, program uptake in disadvantaged communities, to support: undergrounding/mitigation approvals, rate cases, ROE discussions.</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Helps Acme argue: “We’re not just investing in assets; we’re measurably improving our customers’ experience and protecting vulnerable groups.”</p>
-                                  </li>
-                                </ul>
-                              </div>
-
-                              <div className="mt-6">
-                                <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight opacity-50">Lens Check for Hypothesis 3</p>
-                                <div className="space-y-3">
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Relevance — High</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Directly aligned with affordability, wildfire/PSPS, and public trust concerns that are front-page news and a constant theme in legislative and CPUC discourse.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• In the job scope of Chief Customer Officer, regulatory team, and indirectly CEO.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Impact — Medium-high (with leverage)</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• CX doesn’t change billions of capex directly, but: fewer complaints & better satisfaction → more regulatory goodwill, fewer penalties, better targeting of assistance → less bad debt, better political optics, higher program participation → lower system costs over time.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• Also raises odds that big plans (Hypotheses 1 & 2) get approved and accepted.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Urgency — High</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Customers are currently in arrears and angry, not theoretically unhappy.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• Acme is actively rolling out credits and assistance; the next 1–2 years are critical to shift narrative from “worst in class” to “improving.”</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Meaningfulness — High</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Politically salient; will show up in: headlines, CPUC public comment, local government reactions to projects.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• For a Chief Customer Officer or exec sponsor, success here would be career-making because it flips a long-term negative story.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Confidence — Medium-high</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Plenty of utility benchmarks show CX improvements driving regulatory and program outcomes; Acme’s own public numbers on arrears, assistance and credits validate the pain and the levers.</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white leading-tight">Differentiation — High</p>
-                                    <div className="pl-1 space-y-1">
-                                      <p className="text-[9px] text-white/50 leading-tight">• Many firms offer CX projects; far fewer combine: CX research, utility program design, behavioral science, and deep regulatory context.</p>
-                                      <p className="text-[9px] text-white/50 leading-tight">• our company’s existing footprint in utility customer strategy gives you credibility and speed that generic CX agencies won’t have.</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                          {/* How to Use These Hypotheses */}
-                          <div className="mt-8 space-y-4">
-                            <h3 className="text-[9px] font-bold text-white opacity-60">How to Use These Hypotheses</h3>
-                            <div className="space-y-3">
-                              <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                For internal our company execs, these are essentially three big bets:
-                              </p>
-                              <ul className="space-y-1 pl-1">
-                                <li className="text-[9px] font-bold text-white/90 leading-tight">• Safety at least cost</li>
-                                <li className="text-[9px] font-bold text-white/90 leading-tight">• Growth-powered affordability and earnings</li>
-                                <li className="text-[9px] font-bold text-white/90 leading-tight">• Trust and permission to operate</li>
-                              </ul>
-                              <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">
-                                Each comes with clear subthemes and workstreams you can shape into:
-                              </p>
-                              <ul className="space-y-1 pl-1">
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• discovery questions,</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• joint working sessions,</li>
-                                <li className="text-[9px] font-normal text-white/70 leading-tight">• and co-authored POVs or roadmaps with Acme.</li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Business Case Content */}
-                      {activeMainTab === 2 && (
-                        <div className="space-y-8">
-                          {activeInnerTab === 0 && ( /* Persona Overview */
-                            <div className="space-y-6">
-                              <div className="space-y-1">
-                                <h3 className="text-[9px] font-bold text-white leading-tight">5. Impacted Initiatives</h3>
-                                <p className="text-[9px] font-normal text-white/70 leading-tight">This control tower would directly support and sharpen:</p>
-                                <ul className="space-y-2 pt-2 pl-1">
-                                  <li className="text-[9px] font-normal text-white/70 leading-tight">• The $63B–$73B capex program (pacing, mix, and prioritization).</li>
-                                  <li className="text-[9px] font-normal text-white/70 leading-tight">• The non-fuel O&M lean program (2–3% annual reductions).</li>
-                                  <li className="text-[9px] font-normal text-white/70 leading-tight">• Data center / large-load strategy (tariffs, siting, connection timing).</li>
-                                  <li className="text-[9px] font-normal text-white/70 leading-tight">• Near-term and future GRC and cost-of-capital filings.</li>
-                                  <li className="text-[9px] font-normal text-white/70 leading-tight">• Investor relations and rating-agency engagement around ROE, credit, and affordability.</li>
-                                </ul>
-                              </div>
-                            </div>
-                          )}
-
-                          {activeInnerTab === 1 && ( /* Business Case Draft */
-                            <div className="space-y-6">
-                              <div className="space-y-1">
-                                <h3 className="text-[9px] font-bold text-white leading-tight">Headline / Objective</h3>
-                                <p className="text-[9px] font-bold text-white leading-tight">
-                                  Align Acme’s $73B Grid Investment, 10 GW Load Growth, and Affordability Commitments into a Single Financial Model That Protects 9%+ EPS Growth and Credit Strength.
-                                </p>
-                              </div>
-
-                              <div className="space-y-2">
-                                <p className="text-[9px] font-bold text-white leading-tight">1. Executive Summary – What’s Changed</p>
-                                <div className="space-y-2 pl-1">
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">Acme has committed to $63B+ of capex through 2028 (≈$73B by 2030) for wildfire mitigation, undergrounding, and grid upgrades to serve fast-growing data center and electrification load.</p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">CPUC has already cut authorized ROE to ~10.28% for 2025, and a proposed decision would lower it further to 9.93% in 2026 – the lowest in decades – even as Acme argues its risk profile remains elevated.</p>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">Residential customers saw ~$440/year bill increases in 2024 and another ~$72/year in 2025, with ~20% of customers behind on bills (avg. ~$710 arrears).</p>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-normal text-white/70 leading-tight">At the same time, Acme has told investors it can:</p>
-                                    <ul className="space-y-1 pl-4">
-                                      <li className="text-[9px] font-normal text-white/70 leading-tight">• deliver 9%+ EPS growth and reach a 20% dividend payout ratio by 2028 without new equity for the current plan, and</li>
-                                      <li className="text-[9px] font-normal text-white/70 leading-tight">• use ~10 GW of data center load to ultimately reduce bills by {'>'}10% (1–2% per GW).</li>
-                                    </ul>
-                                  </div>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight pt-1">The CFO now has to prove that these promises are simultaneously achievable under tightening ROE, high wildfire risk, and acute affordability pressure.</p>
-                                </div>
-                              </div>
-
-                              <div className="space-y-2">
-                                <p className="text-[9px] font-bold text-white leading-tight">2. The Problem (and Cost of Inaction)</p>
-                                <div className="space-y-3 pl-1">
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Problem:</p>
-                                    <p className="text-[9px] font-normal text-white/70 leading-tight">Acme’s financial plan is highly sensitive to a handful of cross-cutting variables—ROE, data center realization, O&M savings, pacing/mix of wildfire capex, and arrears—but they’re largely managed in separate silos. There is no single, CFO-grade “control tower” that:</p>
-                                    <ul className="space-y-1 pl-4">
-                                      <li className="text-[9px] font-normal text-white/70 leading-tight">• links the $73B capex arc, 10 GW load scenarios, O&M programs, and financing mix to</li>
-                                      <li className="text-[9px] font-normal text-white/70 leading-tight">• EPS, FFO/debt, and actual bill trajectories by customer class.</li>
-                                    </ul>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Cost of inaction:</p>
-                                    <ul className="space-y-3">
-                                      <li className="space-y-1">
-                                        <p className="text-[9px] font-bold text-white/90 leading-tight">EPS & credit risk:</p>
-                                        <p className="text-[9px] font-normal text-white/60 leading-tight">With ROE trending toward 9.93%, any shortfall on O&M (2–3%/yr targets) or data-center load erodes the 9%+ EPS path and could weaken FFO/debt, raising borrowing costs across tens of billions of rate base.</p>
-                                      </li>
-                                      <li className="space-y-1">
-                                        <p className="text-[9px] font-bold text-white/90 leading-tight">Affordability & political risk:</p>
-                                        <p className="text-[9px] font-normal text-white/60 leading-tight">On top of recent $500+ annual bill increases, further unmodeled increases will strain already high arrears and make future rate/capex decisions politically toxic.</p>
-                                      </li>
-                                      <li className="space-y-1">
-                                        <p className="text-[9px] font-bold text-white/90 leading-tight">Strategic credibility risk:</p>
-                                        <p className="text-[9px] font-normal text-white/60 leading-tight">If the “simple affordable model” (O&M + beneficial load + cheaper capital) doesn’t materialize in numbers, Acme may face renewed pressure for equity, securitizations, or structural change that directly undercut the CFO’s current plan.</p>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="space-y-2">
-                                <p className="text-[9px] font-bold text-white leading-tight">3. Recommendation</p>
-                                <p className="text-[9px] font-normal text-white/70 leading-tight pl-1">Co-develop a CFO-grade “Affordability & Growth Control Tower” that becomes the standard lens for all major capital, rate, and load decisions.</p>
-                                <div className="space-y-3 pl-2 pt-2">
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Core elements:</p>
-                                    <ul className="space-y-3">
-                                      <li className="space-y-1">
-                                        <p className="text-[9px] font-bold text-white/80 leading-tight">Integrated model that ingests:</p>
-                                        <p className="text-[9px] font-normal text-white/60 leading-tight">Capex by driver (wildfire/undergrounding, capacity for data centers, reliability, IT/automation), Load growth scenarios (timing and size of data centers, EVs, building electrification), Non-fuel O&M reduction portfolio (2–3% annual targets and initiatives), Financing mix (DOE loan, securitizations, term debt, self-insurance), ROE and cost-of-capital cases.</p>
-                                      </li>
-                                      <li className="space-y-1">
-                                        <p className="text-[9px] font-bold text-white/80 leading-tight">Outputs in CFO metrics:</p>
-                                        <p className="text-[9px] font-normal text-white/60 leading-tight">EPS path & sensitivities (by ROE/load/O&M scenarios), FFO/debt & rating-agency view of credit headroom, Bill trajectories by customer class and explicit bill impact per GW of data-center load, Trade-off views: “for each additional $1B wildfire capex or 1 GW of load, here is the impact on EPS and bills.”</p>
-                                      </li>
-                                      <li className="space-y-1">
-                                        <p className="text-[9px] font-bold text-white/80 leading-tight">Embedded in real decisions:</p>
-                                        <p className="text-[9px] font-normal text-white/60 leading-tight">Next GRC and cost-of-capital case design, Data-center tariff and siting strategy, O&M initiative prioritization, Board and rating-agency briefings.</p>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <p className="text-[9px] font-normal text-white/70 leading-tight">Our company brings utility financial modeling + grid/wildfire context + customer/affordability insight and co-builds this with Acme’s finance, planning, and regulatory teams over 18–24 months.</p>
-                                </div>
-                              </div>
-
-                              <div className="space-y-2">
-                                <p className="text-[9px] font-bold text-white leading-tight">4. Target Outcomes</p>
-                                <p className="text-[9px] font-normal text-white/70 leading-tight pl-1">Within 18–24 months, this should enable Acme’s CFO to:</p>
-                                <ul className="space-y-4 pl-2 pt-2">
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Demonstrate EPS & credit resilience</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Scenario-tested plan showing 9%+ EPS growth and targeted FFO/debt are achievable across multiple ROE and load-realization cases.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Quantify affordability and “beneficial load”</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Clear decomposition of how O&M savings and each incremental GW of data center load (1–2% bill impact) have avoided or reduced rate increases vs a no-growth baseline.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">Support ROE and cost-of-capital arguments</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Evidence that wildfire and grid capex are efficient and optimized, not just large, strengthening the case against deeper ROE cuts that could raise actual financing costs.</p>
-                                  </li>
-                                  <li className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">De-risk “no new equity / 20% payout” story</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Robust downside cases showing conditions under which the current equity stance and dividend trajectory remain credible—and where contingency levers exist.</p>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          )}
-
-                          {activeInnerTab === 2 && ( /* Discovery */
-                            <div className="space-y-6">
-                              <div className="space-y-1">
-                                <h3 className="text-[9px] font-bold text-white leading-tight">6. Path to Success (High-Level)</h3>
-                                <div className="space-y-4 pt-2">
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">0–3 months – Design & pilot</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Define CFO decision questions; stand up a minimal model for 1–2 key scenarios (e.g., ROE 9.93% vs 10.28%; 6 vs 10 GW load). Use it in at least one real planning or regulatory scenario discussion.</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">3–12 months – Expand & integrate</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Extend to full capex and O&M portfolio; incorporate detailed data-center and EV scenarios. Integrate into GRC/cost-of-capital preparation and Board materials.</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <p className="text-[9px] font-bold text-white/90 leading-tight">12–24 months – Embed & transition</p>
-                                    <p className="text-[9px] font-normal text-white/60 leading-tight">Make the model a standard finance/strategy tool; our company shifts to advisory/refresh role (new scenarios, policy shifts, gas transition, etc.).</p>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="mt-6 pt-4 border-t border-white/10">
-                                <p className="text-[9px] text-white font-bold mb-2 tracking-tight leading-tight opacity-50">Context on Narrative Fit</p>
-                                <p className="text-[9px] font-normal text-white/70 leading-tight">
-                                  This business case is deliberately anchored in Acme’s own public commitments and metrics—$63B+ capex, ROE cuts, 9%+ EPS growth, “no new equity,” 10 GW data centers, 1–2% bill impact per GW, O&M reduction targets, and current bill/arrears levels.
-                                </p>
-                                <p className="text-[9px] font-normal text-white/70 leading-tight pt-2">
-                                  The hypothesis is not that Acme should change its strategy, but that the CFO needs a single, rigorous, scenario-based financial lens to prove and protect that strategy in front of the Board, CPUC, rating agencies, and investors. our company’s role is to co-build that lens with the teams already accountable for delivering it.
-                                </p>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* Tab Image Display */}
+              <TabImageDisplay activeMainTab={activeMainTab} />
             </div>
           </div>
         </motion.div>
