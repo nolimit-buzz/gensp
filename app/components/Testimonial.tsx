@@ -22,7 +22,7 @@ const testimonials = [
     role: "Fractional CSO & Business Strategist",
     image: "/jason.png",
     quote: "We’ve engaged Gen SP across several initiatives, most recently to support a growth and whitespace assessment for one of our largest accounts in the utility and water sector. Their AI workspace delivered precise insights that constructively challenged our team and clarified where real opportunity existed. It provided credible evidence we could use with stakeholders and helped shape a smarter, more defensible growth plan.",
-    company: "Salesforce"
+    company: ""
   }
 ];
 
